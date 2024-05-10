@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lý Đặt Phòng | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <div th:replace="fragments/backend/header :: header"/>
+    <div th:replace="fragments/backend/menu :: menu"/>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+                            <li class="breadcrumb-item"><a href="/quan-ly/quan-ly-dat-phong/">Quan Lý Đặt Phòng</a></li>
+                            <li class="breadcrumb-item active">Biểu Mẫu</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Thông Tin Đặt Phòng</h3>
+                            </div>
+
+                            <form id="quickForm"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  th:action="@{/quan-ly/dat-phong/bieu-mau/}"
+                                  th:object="${bookingDTO}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="alert alert-dismissible col-md-12"
+                                             th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                                             th:classappend="${messageDTO.status == 'success' ? 'alert-success' : 'alert-warning'}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                                &times;
+                                            </button>
+                                            <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                                            <span th:text="${messageDTO.message}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Quán Karaoke</label>
+                                                <select class="form-control select2" style="width: 100%;"
+                                                        th:disabled="${isOwner != null}"
+                                                        th:classappend="${#fields.hasErrors('owner')} ? 'is-invalid' : ''"
+                                                        th:field="*{ownerId}">
+                                                    <option th:each="item : ${karaokeList}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.name}"/>
+                                                </select>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('owner')}"
+                                                   th:errors="*{owner}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Khách Hàng</label>
+                                                <select class="form-control select2" style="width: 100%;"
+                                                        th:classappend="${#fields.hasErrors('account')} ? 'is-invalid' : ''"
+                                                        th:field="*{accountId}">
+                                                    <option value="0">Chọn Khách Hàng</option>
+                                                    <option th:each="item : ${accountList}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.username}"/>
+                                                </select>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('account')}"
+                                                   th:errors="*{account}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputRoomType">Loại phòng</label>
+                                                <select id="inputRoomType" class="form-control select2"
+                                                        style="width: 100%;" th:field="*{roomType}">
+                                                    <option value="VIP">VIP</option>
+                                                    <option value="NORMAL">Thường</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputTimeOrder">Thời Gian Đặt</label>
+                                                <div class="input-group date" id="reservationdatetime"
+                                                     data-target-input="nearest">
+                                                    <input type="text" name="timeInput" class="form-control datetimepicker-input"
+                                                           th:classappend="${#fields.hasErrors('timeInput')} ? 'is-invalid' : ''"
+                                                           data-target="#reservationdatetime"
+                                                           id="inputTimeOrder" placeholder="dd/MM/yyyy HH:mm:ss"
+                                                           th:field="*{timeInput}"/>
+                                                    <div class="input-group-append" data-target="#reservationdatetime"
+                                                         data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('timeInput')}"
+                                                   th:errors="*{timeInput}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputPrice">Giá</label>
+                                                <input type="text" name="price" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('price')} ? 'is-invalid' : ''"
+                                                       id="inputPrice" placeholder="Nhập Giá Phòng" th:field="*{price}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('price')}"
+                                                   th:errors="*{price}"></p>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputDiscount">Giảm Giá</label>
+                                                <input type="text" name="discount" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('discount')} ? 'is-invalid' : ''"
+                                                       id="inputDiscount" placeholder="Nhập Giảm Giá" th:field="*{discount}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('discount')}"
+                                                   th:errors="*{discount}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputProgress">Trạng Thái</label>
+                                                <select id="inputProgress" class="form-control select2"
+                                                        style="width: 100%;" th:field="*{progress}">
+                                                    <option value="PENDING">Chờ Duyệt</option>
+                                                    <option value="APPROVED">Duyệt</option>
+                                                    <option value="COMPLETED">Hoàn Thành</option>
+                                                    <option value="CANCELED">Hủy</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputTotalBill">Tổng Bill</label>
+                                                <input type="text" name="totalBill" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('totalBill')} ? 'is-invalid' : ''"
+                                                       id="inputTotalBill" placeholder="Nhập Tổng Bill" th:field="*{totalBill}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('totalBill')}"
+                                                   th:errors="*{totalBill}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Hình Ảnh Bill</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="billMul"
+                                                               accept="image/png, image/jpeg">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6" th:if="${bookingDTO.bill != null }">
+                                                    <img th:src="@{${bookingDTO.bill}}" width="100%"/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="hidden" name="id" class="form-control" th:field="*{id}">
+                                    <input type="hidden" name="ownerId" class="form-control" th:field="*{ownerId}">
+                                    <button type="submit" class="btn btn-primary">Lưu Dữ Liệu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+
+<!-- date-range-picker -->
+<script th:src="@{/backend/plugins/daterangepicker/daterangepicker.js}"></script>
+<script th:src="@{/backend/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js}"></script>
+<script th:src="@{/backend/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/backend/plugins/inputmask/jquery.inputmask.min.js}"></script>
+<script th:src="@{/backend/plugins/select2/js/select2.full.min.js}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script th:src="@{/backend/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Bootstrap Switch -->
+<script th:src="@{/backend/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+<!-- BS-Stepper -->
+<script th:src="@{/backend/plugins/bs-stepper/js/bs-stepper.min.js}"></script>
+<!-- dropzonejs -->
+<script th:src="@{/backend/plugins/dropzone/min/dropzone.min.js}"></script>
+
+<script>
+    $(function () {
+
+        //Datemask dd/mm/yyyy
+        $('#datemask').inputmask('dd/mm/yyyy', {'placeholder': 'dd/mm/yyyy'})
+        //Datemask2 mm/dd/yyyy
+        $('#datemask2').inputmask('mm/dd/yyyy', {'placeholder': 'mm/dd/yyyy'})
+        //Money Euro
+        $('[data-mask]').inputmask()
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        $('#reservationdatetime').datetimepicker({icons: {time: 'far fa-clock'}});
+
+
+        //Date range picker
+        $('#reservation').daterangepicker()
+        //Date range picker with time picker
+        $('#reservationtime').daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 30,
+            locale: {
+                format: 'MM/DD/YYYY hh:mm A'
+            }
+        })
+        //Date range as a button
+        $('#daterange-btn').daterangepicker(
+            {
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            },
+            function (start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+            }
+        )
+
+        //Timepicker
+        $('#timepicker').datetimepicker({
+            format: 'LT'
+        })
+
+        //Bootstrap Duallistbox
+        $('.duallistbox').bootstrapDualListbox()
+
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker()
+        //color picker with addon
+        $('.my-colorpicker2').colorpicker()
+
+        $('.my-colorpicker2').on('colorpickerChange', function (event) {
+            $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+        })
+
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+
+    })
+    // BS-Stepper Init
+    document.addEventListener('DOMContentLoaded', function () {
+        window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+    })
+
+    // DropzoneJS Demo Code Start
+    Dropzone.autoDiscover = false
+
+    // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+    var previewNode = document.querySelector("#template")
+    previewNode.id = ""
+    var previewTemplate = previewNode.parentNode.innerHTML
+    previewNode.parentNode.removeChild(previewNode)
+
+    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+        url: "/target-url", // Set the url
+        thumbnailWidth: 80,
+        thumbnailHeight: 80,
+        parallelUploads: 20,
+        previewTemplate: previewTemplate,
+        autoQueue: false, // Make sure the files aren't queued until manually added
+        previewsContainer: "#previews", // Define the container to display the previews
+        clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+    })
+
+    myDropzone.on("addedfile", function (file) {
+        // Hookup the start button
+        file.previewElement.querySelector(".start").onclick = function () {
+            myDropzone.enqueueFile(file)
+        }
+    })
+
+    // Update the total progress bar
+    myDropzone.on("totaluploadprogress", function (progress) {
+        document.querySelector("#total-progress .progress-bar").style.width = progress + "%"
+    })
+
+    myDropzone.on("sending", function (file) {
+        // Show the total progress bar when upload starts
+        document.querySelector("#total-progress").style.opacity = "1"
+        // And disable the start button
+        file.previewElement.querySelector(".start").setAttribute("disabled", "disabled")
+    })
+
+    // Hide the total progress bar when nothing's uploading anymore
+    myDropzone.on("queuecomplete", function (progress) {
+        document.querySelector("#total-progress").style.opacity = "0"
+    })
+
+    // Setup the buttons for all transfers
+    // The "add files" button doesn't need to be setup because the config
+    // `clickable` has already been specified.
+    document.querySelector("#actions .start").onclick = function () {
+        myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED))
+    }
+    document.querySelector("#actions .cancel").onclick = function () {
+        myDropzone.removeAllFiles(true)
+    }
+    // DropzoneJS Demo Code End
+</script>
+</body>
+</html>

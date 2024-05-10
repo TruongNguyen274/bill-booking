@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="slide">
+
+  <section id="promo-banners" class="clearfix">
+    <div class="container">
+      <div class="promo-slider">
+        <!-- Slider -->
+        <div class="promo-slider__slides">
+          <div class="slider-item" th:each="item : ${gallerySlideList}">
+            <a th:href="${item.link}"
+               target="_blank">
+              <div
+                      style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10;">
+              </div>
+              <!-- desktop -->
+              <div class="hidden-sm hidden-xs">
+                <div class="div-layer layer-bg" style="width:690px;height:335px; background-size: cover;"
+                     th:data-src="${item.image}">
+                </div>
+              </div>
+              <!-- mobile -->
+              <div class="visible-sm visible-xs">
+                <div class="div-mobile-layer layer-bg layer-bg"
+                     style="width:750px;height:390px; background-size: cover;"
+                     th:data-src="${item.image}">
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <a class="btn-prev"><span class="icon-arr-left"></span></a>
+        <a class="btn-next"><span class="icon-arr-right"></span></a>
+        <!-- Slider -->
+
+        <!-- Banner right -->
+        <div class="promo-banners hidden-sm hidden-xs">
+            <a class="" th:each="item : ${galleryRightList}"
+               th:href="${item.link}">
+              <img class="lazy b-loaded"
+                   th:src="@{${item.image}}"
+                   alt="Bill Booking">
+            </a>
+        </div>
+        <!-- Banner right -->
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

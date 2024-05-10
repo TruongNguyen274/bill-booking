@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng Nhập | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/resources/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- iCheck -->
+    <link rel="stylesheet" th:href="@{/resources/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/resources/backend/dist/css/adminlte.min.css?v=3.2.0}">
+
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a><b>Bill</b> Booking</a>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">ĐĂNG NHẬP HỆ THỐNG</p>
+            <div class="alert alert-warning alert-dismissible col-md-12" th:if="${error}">
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo!</h5>
+                <span>Tên đăng nhập hoặc mật khẩu không đúng!</span>
+            </div>
+            <div class="alert alert-default-success alert-dismissible col-md-12" th:if="${changePassword != null}">
+                <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo!</h5>
+                <span>Thay đổi mật khẩu thành công, vui lòng đăng nhập lại!</span>
+            </div>
+<!--            <div class="alert alert-default-success alert-dismissible col-md-12" th:if="${forgotPassword != null}">-->
+<!--                <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo!</h5>-->
+<!--                <span>Cập nhật mật khẩu thành công, vui lòng đăng nhập lại!</span>-->
+<!--            </div>-->
+            <form th:action="@{/login}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="username" value="" placeholder="Tên đăng nhập..." required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" name='password' value="" placeholder="Mật khẩu..." required>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Đăng Nhập</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="social-auth-links text-center">
+                <p>- hoặc -</p>
+                <a href="/quan-ly/quen-mat-khau/" class="btn btn-block btn-danger">
+                    <i class="fa fa-unlock"></i>
+                    Quên Mật Khẩu
+                </a>
+<!--                <a href="#" class="btn btn-block btn-primary" disabled="">-->
+<!--                    <i class="fab fa-facebook mr-2"></i>-->
+<!--                    Đăng nhập bằng Facebook-->
+<!--                </a>-->
+<!--                <a href="#" class="btn btn-block btn-danger">-->
+<!--                    <i class="fab fa-google-plus mr-2"></i>-->
+<!--                    Đăng nhập bằng Google+-->
+<!--                </a>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/resources/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/resources/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/resources/dist/js/adminlte.min.js?v=3.2.0}"></script>
+
+</body>
+</html>

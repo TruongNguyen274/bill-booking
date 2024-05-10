@@ -1,0 +1,87 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="searchform">
+
+        <div style="padding-left: 10px; margin-top: 45px;" class="search-area col-md-7 hidden-xs hidden-sm" id="main-search">
+            <form action="/tim-kiem.html" method="get" class="">
+                <div class="search-box form-inline clearfix">
+                    <div class="search-box__category">
+                        <select class="selectpicker" id="locationId" name="locationId">
+                            <option value="0">Tất cả danh mục</option>
+                            <option th:each="item : ${locationStore}" th:value="${item.id}" th:text="${'- ' + item.name}"></option>
+                        </select>
+                        <div class="btn-group bootstrap-select">
+                            <button type="button"
+                                    class="btn dropdown-toggle btn-default"
+                                    data-toggle="dropdown" data-id="category_search"
+                                    title="Tất cả danh mục" aria-expanded="false">
+                                <span class="filter-option pull-left">Tất cả danh mục</span>&nbsp;<span class="caret"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-box__input" style="overflow: visible;">
+                        <input type="text" id="search_all"
+                               class="form-control input-search" name="keyword"
+                               placeholder="Tìm kiếm theo tên quán hoặc khuyến mãi" value="" />
+
+                        <a class="btn btn--remove hidden">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                        <a class="btn btn--cancel hidden">Hủy</a>
+
+<!--                        <input type="hidden" name="locationId" th:value="${localStore?.id}" >-->
+
+                        <button class="btn btn-danger">
+                            <i class="fa fa-search"></i>
+                            <span class="sr-only">Tìm kiếm</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div style="padding-left: 10px; margin-top: 1px;" class="search-area col-md-7 visible-xs visible-sm" id="main-search">
+            <form action="/tim-kiem.html" method="get" class="">
+                <div class="search-box form-inline clearfix">
+                    <div class="search-box__category">
+                        <select class="selectpicker" id="locationId" name="locationId">
+                            <option value="0">Tất cả danh mục</option>
+                            <option th:each="item : ${locationStore}" th:value="${item.id}" th:text="${'- ' + item.name}"></option>
+                        </select>
+                        <div class="btn-group bootstrap-select">
+                            <button type="button"
+                                    class="btn dropdown-toggle btn-default"
+                                    data-toggle="dropdown" data-id="category_search"
+                                    title="Tất cả danh mục" aria-expanded="false">
+                                <span class="filter-option pull-left">Tất cả danh mục</span>&nbsp;<span class="caret"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-box__input" style="overflow: visible;">
+                        <input type="text" id="search_all"
+                               class="form-control input-search" name="keyword"
+                               placeholder="Tìm kiếm theo tên quán hoặc khuyến mãi" value="" />
+
+                        <a class="btn btn--remove hidden">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                        <a class="btn btn--cancel hidden">Hủy</a>
+
+<!--                        <input type="hidden" name="locationId" th:value="${localStore?.id}" >-->
+
+                        <button class="btn btn-danger">
+                            <i class="fa fa-search"></i>
+                            <span class="sr-only">Tìm kiếm</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+
+</body>
+</html>

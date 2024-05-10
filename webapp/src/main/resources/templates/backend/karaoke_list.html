@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quán Karaoke | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="fragments/backend/header :: header"/>
+    <div th:replace="fragments/backend/menu :: menu"/>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+                            <li class="breadcrumb-item active">Quán Karaoke</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Danh Sách Quán Karaoke</h3>
+                                <div class="card-tools">
+                                    <a type="button" class="btn btn-block btn-primary" href="/quan-ly/quan-karaoke/bieu-mau">Thêm Mới</a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 100px">Tên Quán</th>
+                                        <th style="width: 100px">Email</th>
+                                        <th style="width: 100px">Điện Thoại</th>
+                                        <th>Địa Chỉ</th>
+                                        <th style="width: 80px">Trạng Thái</th>
+                                        <th style="width: 100px">Tuỳ Chọn</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${karaokeList}">
+                                            <td th:text="${item.name}"></td>
+                                            <td th:text="${item.accountDTO.email}"></td>
+                                            <td th:text="${item.phone}"></td>
+                                            <td th:text="${item.address}"></td>
+                                            <td th:switch="${item.status}" class="text-center">
+                                                <p class="badge badge-success" th:case="true">Hoạt Động</p>
+                                                <p class="badge badge-danger" th:case="false">Tạm Ngưng</p>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" style="margin: 5px"
+                                                   th:href="@{'/quan-ly/quan-karaoke/bieu-mau/' + ${item.id}}">
+                                                    <i class="fas fa-eye"></i>
+                                                    Xem Quán
+                                                </a>
+
+                                                <a class="btn btn-primary btn-sm" style="margin: 5px"
+                                                   th:href="@{'/quan-ly/quan-karaoke/'+${item.id}+'/phong/'}">
+                                                    <i class="fas fa-eye"></i>
+                                                    Xem Phòng
+                                                </a>
+
+                                                <a class="btn btn-primary btn-sm" style="margin: 5px"
+                                                   th:href="@{'/quan-ly/binh-luan/'}">
+                                                    <i class="fas fa-eye"></i>
+                                                    Bình Luận
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="width: 100px">Tên Quán</th>
+                                            <th style="width: 100px">Khách Hàng</th>
+                                            <th>Địa Chỉ</th>
+                                            <th style="width: 100px">Điện Thoại</th>
+                                            <!--                                        <th>Số Phòng</th>-->
+                                            <th style="width: 80px">Trạng Thái</th>
+                                            <th style="width: 100px">Tuỳ Chọn</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/backend/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/backend/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/backend/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": [
+                "copy",
+                "csv",
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                "colvis"
+            ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
+</body>
+</html>

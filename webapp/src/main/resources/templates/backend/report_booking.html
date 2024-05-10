@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thống Kê | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+<!--    <link rel="stylesheet" th:href="@{/backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">-->
+    <!-- iCheck -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/jqvmap/jqvmap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/summernote/summernote-bs4.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <div th:replace="fragments/backend/header :: header"/>
+
+    <div th:replace="fragments/backend/menu :: menu"/>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Tổng Quan</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">Trang Chủ</li>
+                            <li class="breadcrumb-item active">Tổng Quan</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 th:text="${dashboardDTO?.reportTotalBooking}">0</h3>
+                                <p>Tổng Hóa Đơn</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a href="/quan-ly/dat-phong" class="small-box-footer">
+                                Xem Thêm <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-success">
+                            <div class="inner">
+                                <h3 th:text="${dashboardDTO.reportTotalBookingPending}"></h3>
+                                <p>Tổng Hóa Đơn Chờ Duyêt</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <a href="/quan-ly/tai-khoan" class="small-box-footer">
+                                Xem Thêm <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3 th:text="${dashboardDTO.reportTotalBookingApproved}"></h3>
+                                <p>Tổng Hóa Đơn Hoàn Thành</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <a href="/quan-ly/tai-khoan" class="small-box-footer">
+                                Xem Thêm <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-danger">
+                            <div class="inner">
+                                <h3 th:text="${dashboardDTO.reportTotalPrice}"></h3>
+                                <p>Tổng Tiền</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <a href="/quan-ly/dat-phong" class="small-box-footer">
+                                Xem Thêm <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"></h3>
+                                <div class="card-tools"></div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+
+                                <form id="quickForm2" method="get" th:action="@{/thong-ke/dat-phong/tim-kiem}" th:object="${reportBookingDTO}">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Quán Karaoke</label>
+                                                    <select class="form-control select2" style="width: 100%;" th:field="*{karaokeId}">
+                                                        <option th:value="0" >Tất Cả</option>
+                                                        <option th:each="item : ${karaokes}"
+                                                                th:value="${item.id}"
+                                                                th:text="${item.name}"/>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Từ Ngày</label>
+                                                    <div class="input-group date" data-target-input="nearest">
+                                                        <input type="date" id="startDate" class="form-control datetimepicker-input" data-target="#reservationdate" th:field="*{startDate}" required/>
+                                                    </div>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('startDate')}"
+                                                       th:errors="*{startDate}"></p>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Tới Ngày</label>
+                                                    <div class="input-group date" data-target-input="nearest">
+                                                        <input type="date" id="endDate" class="form-control datetimepicker-input" data-target="#reservationdate" th:field="*{endDate}" required/>
+                                                    </div>
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('endDate')}"
+                                                       th:errors="*{endDate}"></p>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <table id="example1" class="table table-bordered table-striped" th:if="${bookingList != null}">
+                                    <thead>
+                                    <tr>
+                                        <th>Tên Quán</th>
+                                        <th>Khách Hàng</th>
+                                        <th>Loại Phòng</th>
+                                        <th>Thời Gian</th>
+                                        <th>Tổng Tiền</th>
+                                        <th style="width: 75px">Trạng Thái</th>
+                                        <th style="width: 75px">Tuỳ Chọn</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="item : ${bookingList}">
+                                        <td th:text="${item.owner.name}"></td>
+                                        <td>
+                                            <a th:text="${item.account.fullName}"></a>
+                                            <br/>
+                                            <small th:text="${item.account.email}"></small>
+                                        </td>
+                                        <td th:text="${item.roomType}"></td>
+                                        <td th:text="${item.timeInput}"></td>
+                                        <td th:text="${item.totalBill}" class="text-right"></td>
+                                        <td th:switch="${item.progress}" class="text-center">
+                                            <p class="badge badge-warning" th:case="PENDING">Chờ Duyệt</p>
+                                            <p class="badge badge-success" th:case="APPROVED">Duyệt</p>
+                                            <p class="badge badge-success" th:case="COMPLETED">Hoàn Thành</p>
+                                            <p class="badge badge-danger" th:case="CANCLED">Hủy</p>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-sm"
+                                               th:href="@{'/quan-ly/dat-phong/bieu-mau/'+ ${item.id}}">
+                                                <i class="fas fa-eye"></i>
+                                                Xem
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Tên Quán</th>
+                                        <th>Khách Hàng</th>
+                                        <th>Loại Phòng</th>
+                                        <th>Thời Gian</th>
+                                        <th>Tổng Tiền</th>
+                                        <th style="width: 75px">Trạng Thái</th>
+                                        <th style="width: 75px">Tuỳ Chọn</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/backend/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/backend/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/backend/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/backend/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/backend/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "buttons": [
+                "copy",
+                "csv",
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
+                },
+                "colvis"
+            ]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+
+</body>
+</html>

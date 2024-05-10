@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="headerfull">
+
+        <header id="header" class="header clearfix">
+            <div th:replace="fragments/frontend/navigation :: navigation"/>
+
+            <div class="header__main clearfix">
+                <div class="container">
+                    <div class="row">
+                        <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container"
+                           data-effect="hd-effect-4"><i class="fa fa-bars"></i></a>
+                        <a class="toggle-search visible-xs visible-sm" data-target="#main-search">
+                            <!-- <i class="fa fa-search"></i> -->
+                        </a>
+
+                        <div id="logo" class="logo-wrapper col-md-3">
+                            <a th:href="'/trang-chu.html?locationId=' + ${localStore?.id}">
+                                <img class="hidden-xs hidden-sm" width="250px" th:src="@{/resources/images/logo/logo_billbooking_1000px.png}">
+                                <img class="visible-xs visible-sm" th:src="@{/resources/images/logo/Logo_Billbooking2.png}">
+                            </a>
+                        </div>
+
+                        <!-- search -->
+                        <div th:replace="fragments/frontend/searchform :: searchform"/>
+
+                        <!-- cart -->
+                        <div th:replace="fragments/frontend/cartform :: cartform"/>
+                    </div>
+                </div>
+            </div>
+
+            <div th:replace="fragments/frontend/menu :: menu"/>
+
+            <style>
+                @media screen and (max-width: 365px){
+                    .header__main #logo{
+                        padding: 7px 60px;
+                    }
+                }
+            </style>
+        </header>
+
+    </div>
+
+</body>
+</html>

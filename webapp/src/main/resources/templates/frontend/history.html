@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<!-- DETECT MOBILE APP -> MOBILE/INDEX  -->
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Đơn Hàng | Bill Booking</title>
+
+    <meta http-equiv="Content-Language" content="vn">
+    <meta name="description" content="Booking liền tay có ngay BILL chất">
+    <meta name="keywords" content="Bill Booking, BillBooking, karaoke, booking karaoke, đặt phòng karaoke, mã giảm giá karaoke">
+    
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/base-3.7.8.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/app-9.10.77.min.css}">
+
+    <!-- Javascript -->
+    <script>
+        var url = 'http://billbooking.vn';
+        var productId = 0;
+        var moduleName = 'index';
+        var controllerName = 'index';
+        var actionName = 'index';
+        var cookieDomain = '.billbooking.vn';
+        var facebookAppId = '';
+        var isMoblieApp = false;
+    </script>
+</head>
+
+<body class="page-profile">
+<div id="fb-root"></div>
+<div id="ohsnap"></div>
+
+<div id="hd-container" class="hd-container">
+
+
+    <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container" data-effect="hd-effect-4"><i
+            class="fa fa-times"></i></a>
+
+    <div th:replace="fragments/frontend/mobile :: mobile"/>
+
+    <div class="hd-pusher">
+        <div class="hd-content">
+            <div class="hd-content-inner">
+                <div id="page-wrapper">
+                    <div class="hd-touch-layer"></div>
+
+                    <div th:replace="fragments/frontend/headerfull :: headerfull"/>
+
+                    <main id="main" class="main-content clearfix">
+                        <div class="container">
+                            <div class="sidebar-content--2">
+                                <div class="sidebar--profile col-md-4">
+                                    <div class="sidebar__widget widget widget--profile">
+                                        <div>
+                                            <div class="card-member card-silver">
+                                                <div class="pic-member pic-silver">
+                                                    <img th:src="@{${accountDTO.avatar}}" style="width: 100%; height: 100%" >
+                                                </div>
+                                                <div class="box-name">
+                                                    <div class="box-name-silver">
+                                                        <span th:text="${accountDTO.username}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="block-tab">
+                                                <div class="box-tt-tab-diem">
+                                                    <div class="tab-c1">BẠC</div>
+                                                    <div class="tab-c2">VÀNG</div>
+                                                    <div class="tab-c3">VIP</div>
+                                                </div>
+                                                <div class="box-tab-diem">
+                                                    <div class="tab-diem-content" style="width: 30%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box box--no-padding">
+                                        <div class="box__body">
+                                            <div class="sidebar__widget widget">
+                                                <ul class="side-menu left-account">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" 
+                                                           href="/tai-khoan/thong-tin.html">Thông tin tài khoản</a>
+                                                    </li>
+                                                    <li class="nav-item active">
+                                                        <a class="nav-link" id="account-orders-tab" data-toggle="tab"
+                                                           href="#account-orders" role="tab"
+                                                           aria-controls="account-orders"
+                                                           aria-selected="false">Thông tin đơn hàng</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                           href="/tai-khoan/doi-mat-khau.html">Thay đổi mật khẩu</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                           href="/tai-khoan/dang-xuat.html">Đăng Xuất</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class=" col-md-8">
+                                    <div class="tab-content box" id="account-ontent">
+                                        <div class="tab-pane fade active in" id="account-orders" role="tabpanel"
+                                             aria-labelledby="account-orders-tab">
+                                            <div class="box">
+                                                <div class="box__header">
+                                                    <h2 class="box__title">Danh Sách Đơn Hàng</h2>
+                                                    <a href="/tai-khoan.html" class="btn btn--back visible-xs visible-sm"><i class="fa fa-angle-left"></i></a>
+                                                </div>
+                                                <!-- <div class="box__body">
+                                                    <form class="form form--general form-user-oders-list fv-form fv-form-bootstrap" action="" method="get" data-toggle="validator" novalidate="novalidate"><button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+                                                        <div class="row">
+                                                            <div class="form-group form-group-lg col-md-4 ">
+                                                                <label for="period" class="control-label">Thời gian</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i class="hd hd-clock"></i></div>
+                                                                    <select id="period" name="period" class="form-control">
+
+                                                                        <optgroup label="=============">
+                                                                            <option value="D">Hôm nay</option>
+                                                                            <option value="W">Tuần này</option>
+                                                                            <option value="M">Tháng này</option>
+                                                                            <option value="Y">Năm nay</option>
+                                                                        </optgroup>
+                                                                        <optgroup label="=============">
+                                                                            <option value="LD">Hôm qua</option>
+                                                                            <option value="LW">Tuần trước</option>
+                                                                            <option value="LM">Tháng trước</option>
+                                                                            <option value="LY">Năm ngoái</option>
+                                                                        </optgroup>
+                                                                        <optgroup label="=============">
+                                                                            <option value="HH">24 giờ trước</option>
+                                                                            <option value="HW">7 ngày trước</option>
+                                                                            <option value="HM">30 ngày trước</option>
+                                                                        </optgroup>
+                                                                        <optgroup label="=============">
+                                                                            <option value="C">Khác..</option>
+                                                                        </optgroup>
+                                                                        <optgroup label="=============">
+                                                                            <option value="A" selected="selected">Tất cả</option>
+                                                                        </optgroup>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group form-group-lg col-md-4 has-feedback">
+                                                                <label for="order_id" class="control-label">Mã đơn hàng</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i class="hd hd-order"></i></div>
+                                                                    <input type="text" class="form-control" id="order_id" name="order_id" placeholder="Mã đơn hàng" value="" data-fv-numeric="true" data-fv-numeric-message="Chỉ được nhập số" data-fv-field="order_id">
+                                                                </div><i style="display: none;" class="form-control-feedback fv-bootstrap-icon-input-group" data-fv-icon-for="order_id"></i>
+                                                                <small style="display: none;" class="help-block" data-fv-validator="numeric" data-fv-for="order_id" data-fv-result="NOT_VALIDATED">Chỉ được nhập số</small></div>
+                                                            <div class="form-group form-group-lg col-md-4">
+                                                                <label class="hidden-xs hidden-sm">&nbsp;</label>
+                                                                <button type="submit" class="btn btn-lg btn-success btn-block">TÌM KIẾM</button>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            <div class="form-group form-group-lg col-md-12">
+                                                                <span>Tìm thấy 2 đơn hàng</span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div> -->
+                                            </div>
+                                            <div class="box box--no-padding">
+                                                <div class="box__body">
+                                                    <table class="table table--listing table--orders">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="14%">#</th>
+                                                            <th>Dịch Vụ</th>
+                                                            <th width="14%">Thời Gian</th>
+                                                            <th width="20%">Hoá Đơn (VNĐ)</th>
+                                                            <th width="15%">Trạng thái</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="item : ${bookingList}">
+                                                            <td class="order-id"><a th:text="${'#' + item.code}">#</a></td>
+                                                            <td class="name">
+                                                                <div style="width: 100%; margin-bottom: 7px;">
+                                                                    <a th:href="${'/chi-tiet.html?ownerId=' + item.owner.id}" th:text="${item.owner.name}"></a>
+                                                                </div>
+                                                            </td>
+                                                            <td class="date" th:text="${item.timeInput}"></td>
+                                                            <td class="total text-right" th:text="${item.totalBill}"></td>
+                                                            <td class="status text-center" th:switch="${item.progress}">
+                                                                <p class="badge badge-success" th:case="PENDING" style="background-color: gray">Đang Chờ Duyệt</p>
+                                                                <p class="badge badge-warning" th:case="APPROVED" style="background-color: green">Đã Xác Nhận</p>
+                                                                <p class="badge badge-danger" th:case="CANCELED" style="background-color: red">Đã Huỷ</p>
+                                                                <p class="badge badge-info" th:case="COMPLETED" style="background-color: blue">Hoàn Thành</p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="5"></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-evoucher" role="tabpanel"
+                                             aria-labelledby="account-evoucher-tab">
+                                            <div class="box box--tab">
+                                                <div class="box__header">
+                                                    <h2 class="box__title visible-xs visible-sm">Quản lý E-Voucher</h2>
+                                                    <ul class="tab nav nav-pills hidden-xs hidden-sm">
+                                                        <li class="tab__item active"><a data-toggle="tab" href="#evoucher-chua-dung">CHƯA DÙNG</a></li>
+                                                        <li class="tab__item "><a data-toggle="tab" href="#evoucher-da-dung">ĐÃ DÙNG</a></li>
+                                                    </ul>
+                                                    <a href="/tai-khoan.html" class="btn btn--back visible-xs visible-sm"><i class="fa fa-angle-left"></i></a>
+                                                </div>
+                                                <ul class="tab nav nav-pills tabs--skin-1 visible-xs visible-sm">
+                                                    <li class="tab__item active"><a data-toggle="tab" href="#evoucher-chua-dung">CHƯA DÙNG</a></li>
+                                                    <li class="tab__item "><a data-toggle="tab" href="#evoucher-da-dung">ĐÃ DÙNG</a></li>
+                                                </ul>
+                                                <div class="box__body tab-content">
+                                                    <div class="row tab-pane active" id="evoucher-chua-dung">
+                                                        <div class="col-md-12">
+                                                            <form name="voucherSortForm" id="voucherSortForm" class="form-inline form--general" action="" method="get">
+                                                                <!--<input type="hidden" name="" value=""/>-->
+                                                                <div class="form-group">
+                                                                    <label for="v-sort">Xem deal theo</label>
+                                                                    <!--                                        <div class="input-group">-->
+                                                                    <select name="v-sort" id="v-sort" class="form-control" onchange="$('#voucherSortForm').submit();">
+                                                                        <option value="1">Chưa hết hạn</option>
+                                                                        <option value="2">Gần hết hạn</option>
+                                                                        <option value="3">Đã hết hạn</option>
+                                                                    </select>
+                                                                    <!--                                        </div>-->
+                                                                </div>
+                                                            </form>
+                                                            <br>
+                                                        </div>
+
+                                                        <div class="col-md-12  text-center">Chưa có dữ liệu</div>
+                                                    </div>
+                                                    <div class="row tab-pane" id="evoucher-da-dung">
+                                                        <div class="col-md-12 text-center">Chưa có dữ liệu</div>                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-password" role="tabpanel"
+                                             aria-labelledby="account-password-tab">
+
+                                            <div class="box__header">
+                                                <h2 class="box__title">Thay đổi mật khẩu</h2>
+                                                <a href="/tai-khoan.html"
+                                                   class="btn btn--back visible-xs visible-sm"><i
+                                                        class="fa fa-angle-left"></i></a>
+                                            </div>
+                                            <div class="box__body">
+                                                <form class="form form--general fv-form fv-form-bootstrap" action=""
+                                                      method="post" data-toggle="validator" novalidate="novalidate">
+                                                    <button type="submit" class="fv-hidden-submit"
+                                                            style="display: none; width: 0px; height: 0px;"></button>
+                                                    <input type="hidden" name="r1yEFrOAeThaw798"
+                                                           value="HlcdzghEU16lI8EP">
+                                                    <div class="row form">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group form-group-lg has-feedback">
+                                                                <label for="old_password" class="control-label">Mật
+                                                                    khẩu cũ</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i
+                                                                            class="fa fa-lock"></i></div>
+                                                                    <input type="password" class="form-control"
+                                                                           id="old_password" name="old_password"
+                                                                           value="" placeholder="Nhập mật khẩu cũ"
+                                                                           autocomplete="off"
+                                                                           data-fv-notempty="true"
+                                                                           data-fv-notempty-message="Vui lòng nhập mật khẩu"
+                                                                           data-fv-stringlength="true"
+                                                                           data-fv-stringlength-min="6"
+                                                                           data-fv-stringlength-max="32"
+                                                                           data-fv-stringlength-message="Mật khẩu phải từ 6 đến 32 kí tự"
+                                                                           data-fv-field="old_password">
+                                                                </div>
+                                                                <i style="display: none;"
+                                                                   class="form-control-feedback fv-bootstrap-icon-input-group"
+                                                                   data-fv-icon-for="old_password"></i>
+                                                                <small style="display: none;" class="help-block"
+                                                                       data-fv-validator="notEmpty"
+                                                                       data-fv-for="old_password"
+                                                                       data-fv-result="NOT_VALIDATED">Vui lòng nhập
+                                                                    mật khẩu</small><small style="display: none;"
+                                                                                           class="help-block"
+                                                                                           data-fv-validator="stringLength"
+                                                                                           data-fv-for="old_password"
+                                                                                           data-fv-result="NOT_VALIDATED">Mật
+                                                                khẩu phải từ 6 đến 32 kí tự</small></div>
+
+                                                            <div class="form-group form-group-lg has-feedback">
+                                                                <label for="password" class="control-label">Mật khẩu
+                                                                    mới</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i
+                                                                            class="fa fa-lock"></i></div>
+                                                                    <input type="password" class="form-control"
+                                                                           id="password" name="password" value=""
+                                                                           placeholder="Nhập mật khẩu mới"
+                                                                           autocomplete="off"
+                                                                           data-fv-notempty="true"
+                                                                           data-fv-notempty-message="Vui lòng nhập mật khẩu"
+                                                                           data-fv-stringlength="true"
+                                                                           data-fv-stringlength-min="6"
+                                                                           data-fv-stringlength-max="32"
+                                                                           data-fv-stringlength-message="Mật khẩu phải từ 6 đến 32 kí tự"
+                                                                           data-fv-field="password">
+                                                                </div>
+                                                                <i style="display: none;"
+                                                                   class="form-control-feedback fv-bootstrap-icon-input-group"
+                                                                   data-fv-icon-for="password"></i>
+                                                                <small style="display: none;" class="help-block"
+                                                                       data-fv-validator="notEmpty"
+                                                                       data-fv-for="password"
+                                                                       data-fv-result="NOT_VALIDATED">Vui lòng nhập
+                                                                    mật khẩu</small><small style="display: none;"
+                                                                                           class="help-block"
+                                                                                           data-fv-validator="stringLength"
+                                                                                           data-fv-for="password"
+                                                                                           data-fv-result="NOT_VALIDATED">Mật
+                                                                khẩu phải từ 6 đến 32 kí tự</small></div>
+                                                            <div class="form-group form-group-lg has-feedback">
+                                                                <label for="password2" class="control-label">Nhập
+                                                                    lại mật khẩu mới</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i
+                                                                            class="fa fa-lock"></i></div>
+                                                                    <input type="password" class="form-control"
+                                                                           id="password2" name="password2" value=""
+                                                                           placeholder="Nhập lại mật khẩu mới"
+                                                                           autocomplete="off"
+                                                                           data-fv-notempty="true"
+                                                                           data-fv-notempty-message="Vui lòng nhập lại mật khẩu"
+                                                                           data-fv-identical="true"
+                                                                           data-fv-identical-field="password"
+                                                                           data-fv-identical-message="Xác nhận mật khẩu không đúng"
+                                                                           data-fv-field="password2">
+                                                                </div>
+                                                                <i style="display: none;"
+                                                                   class="form-control-feedback fv-bootstrap-icon-input-group"
+                                                                   data-fv-icon-for="password2"></i>
+                                                                <small style="display: none;" class="help-block"
+                                                                       data-fv-validator="identical"
+                                                                       data-fv-for="password2"
+                                                                       data-fv-result="NOT_VALIDATED">Xác nhận mật
+                                                                    khẩu không đúng</small><small
+                                                                    style="display: none;" class="help-block"
+                                                                    data-fv-validator="notEmpty"
+                                                                    data-fv-for="password2"
+                                                                    data-fv-result="NOT_VALIDATED">Vui lòng nhập lại
+                                                                mật khẩu</small></div>
+                                                            <div class="form-group form-group-lg">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-success btn-block">CẬP
+                                                                    NHẬT
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-accumulation" role="tabpanel"
+                                             aria-labelledby="account-accumulation-tab">
+                                            <div class="box box--no-padding">
+                                                <div class="box__header">
+                                                    <h2 class="box__title">Điểm tích lũy</h2>
+                                                    <a href="/tai-khoan.html"
+                                                       class="btn btn--back visible-xs visible-sm"><i
+                                                            class="fa fa-angle-left"></i></a>
+                                                </div>
+                                                <form class="form form--general fv-form fv-form-bootstrap" action=""
+                                                      method="post" data-toggle="validator" novalidate="novalidate">
+                                                    <button type="submit" class="fv-hidden-submit"
+                                                            style="display: none; width: 0px; height: 0px;"></button>
+                                                    <div class="form">
+                                                        <div class="form-gift-code">
+                                                            <h4>Nhập mã thẻ quà tặng</h4>
+                                                            <div class="form-group form-group-lg has-feedback">
+                                                                <label for="serial" class="control-label">Mã
+                                                                    Seial</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i
+                                                                            class="fa fa-shopping-cart"></i></div>
+                                                                    <input class="form-control" id="serial"
+                                                                           name="serial" value=""
+                                                                           placeholder="Nhập mã serial"
+                                                                           autocomplete="off" data-fv-notempty="true"
+                                                                           data-fv-notempty-message="Vui lòng nhập mã serial"
+                                                                           data-fv-stringlength-max="32"
+                                                                           data-fv-field="serial">
+                                                                </div>
+                                                                <i style="display: none;"
+                                                                   class="form-control-feedback fv-bootstrap-icon-input-group"
+                                                                   data-fv-icon-for="serial"></i>
+                                                                <small style="display: none;" class="help-block"
+                                                                       data-fv-validator="notEmpty" data-fv-for="serial"
+                                                                       data-fv-result="NOT_VALIDATED">Vui lòng nhập mã
+                                                                    serial</small></div>
+                                                            <div class="form-group form-group-lg has-feedback">
+                                                                <label for="code" class="control-label">Mã Code</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon"><i
+                                                                            class="fa fa-shopping-cart"></i></div>
+                                                                    <input class="form-control" id="code" name="code"
+                                                                           value="" placeholder="Nhập mã code"
+                                                                           autocomplete="off" data-fv-notempty="true"
+                                                                           data-fv-notempty-message="Vui lòng nhập mã code"
+                                                                           data-fv-stringlength-max="32"
+                                                                           data-fv-field="code">
+                                                                </div>
+                                                                <i style="display: none;"
+                                                                   class="form-control-feedback fv-bootstrap-icon-input-group"
+                                                                   data-fv-icon-for="code"></i>
+                                                                <small style="display: none;" class="help-block"
+                                                                       data-fv-validator="notEmpty" data-fv-for="code"
+                                                                       data-fv-result="NOT_VALIDATED">Vui lòng nhập mã
+                                                                    code</small></div>
+                                                            <div class="form-group form-group-lg">
+                                                                <button type="submit"
+                                                                        class="btn btn-lg btn-success btn-block">SỬ DỤNG
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--                            <div class="form-gift-code">-->
+                                                    <!--                                <h4>Nhập mã thẻ quà tặng</h4>-->
+                                                    <!--                                <input class="txt-enter-gift-code form-control" name="serial" placeholder="Nhập Serial"-->
+                                                    <!--                                       data-fv-notempty="true"-->
+                                                    <!--                                       data-fv-notempty-message="Vui lòng nhập mã thẻ quà tặng"-->
+                                                    <!--                                       data-fv-stringlength-max = "32"-->
+                                                    <!--                                >-->
+                                                    <!--                                <input class="txt-enter-gift-code form-control" name="code" placeholder="Nhập gift code"-->
+                                                    <!--                                       data-fv-notempty="true"-->
+                                                    <!--                                       data-fv-notempty-message="Vui lòng nhập mã gift code"-->
+                                                    <!--                                       data-fv-stringlength-max = "32"-->
+                                                    <!--                                >-->
+                                                    <!--                                <button type="submit" class="btn bt-in-code">Sử dụng</button>-->
+                                                    <!--                            </div>-->
+                                                </form>
+
+                                                <div class="box__body">
+                                                    <table class="table table--listing table--reward-points">
+                                                        <thead>
+                                                        <tr>
+                                                            <th width="20%">Ngày</th>
+                                                            <th>Nội dung</th>
+                                                            <th style="text-align: right" width="20%">Điểm tích lũy</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td colspan="3" class="text-center">Chưa có dữ liệu</td>
+                                                        </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                                <!--                    -->
+                                                <!--                        <div class="box-count">-->
+                                                <!--                            <div class="text-count">Số dư tài khoản của bạn</div>-->
+                                                <!--                            <div class="text-total">-->
+                                                <!--₫</div>-->
+                                                <!--                        </div>-->
+                                                <!--                    -->                </div>
+                                        </div>
+
+                                        <div class="tab-pane fade" id="account-payment" role="tabpanel"
+                                             aria-labelledby="account-payment-tab">
+                                            <div class="box box--no-padding">
+                                                <div class="box__header">
+                                                    <h2 class="box__title">Thẻ/Tài khoản thanh toán</h2>
+                                                </div>
+                                                <div class="box-list-card">
+                                                    <div class="item-content"> Bạn chưa lưu thẻ!</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+
+                    <div th:replace="fragments/frontend/footer :: footer"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#top" data-offset="300" class="btn btn-default btn--to-top to-top"><i class="fa fa-arrow-up"></i></a>
+<script th:src="@{/resources/frontend/js/base-3.7.8.min.js}"></script>
+<script th:src="@{/resources/frontend/js/app-9.10.77.min.js}"></script>
+<script th:src="@{/resources/frontend/js/ld.js}"></script>
+
+</body>
+</html>
+

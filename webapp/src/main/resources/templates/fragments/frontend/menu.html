@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="menu">
+
+    <nav class="header__navigation main-nav" id="main-nav">
+        <div class="container">
+            <ul class="nav main-nav">
+                <li class="main-nav__branding active">
+                    <a class="branding__heading" href="#">
+                        <span class="">Danh mục <i class="fa fa-angle-down"></i></span>
+                    </a>
+                    <ul class="branding__menu">
+                        <li class="branding__item branding branding--an-uong multicolumns">
+                            <a th:href="'/khuyen-mai.html?locationId=' + ${localStore?.id}"><i class="fa fa-fire"></i> KHUYẾN MÃI HOT</a>
+                        </li>
+                        <li class="branding__item branding branding--an-uong multicolumns">
+                            <a th:href="'/ca-si.html?locationId=' + ${localStore?.id}"><i class="fa fa-music"></i> BOOK CA SĨ</a>
+                        </li>
+                        <li class="branding__item branding branding--an-uong multicolumns">
+                            <a th:href="'/cua-hang.html?locationId=' + ${localStore?.id}"><i class="fa fa-microphone"></i> HỆ THỐNG KARAOKE</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="visible-affix">
+                    <a href="/ho-chi-minh/" class="logo-affix">
+                        <svg class="logo-white" style="width: 140px; height: 21px; fill: #fff;">
+                            <use xlink:href="/assets/img/dist/hd.svg#logo-white"/>
+                        </svg>
+                    </a>
+                </li>
+
+                <li class="visible-affix">
+                    <div class="search-area">
+                        <form action="/tim-kiem" method="get" class="">
+                            <div class="search-box form-inline clearfix">
+                                <div class="search-box__category">
+                                    <select class="selectpicker" id="category_search" name="category">
+                                        <option value="0">Tất cả danh mục</option>
+                                        <option th:each="item : ${locationStore}" th:value="${item.id}" th:text="${'- ' + item.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="search-box__input" style="overflow: visible;">
+                                    <input type="text" id="search_all_minimize"
+                                           class="form-control input-search" name="q"
+                                           placeholder="Tìm kiếm sản phẩm / khuyến mãi" value=""/>
+                                    <button class="btn btn-search">
+                                        <i class="fa fa-search"></i>
+                                        <span class="sr-only">Tìm kiếm</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+                <li class="hidden-affix ">
+                    <a th:href="'/trang-chu.html?locationId=' + ${localStore?.id}">Trang Chủ</a>
+                </li>
+                <li class="hidden-affix ">
+                    <a th:href="'/ca-si.html?locationId=' + ${localStore?.id}">Book Ca Sĩ</a>
+                </li>
+                <li class="hidden-affix ">
+                    <a th:href="'/cua-hang.html?locationId=' + ${localStore?.id}">Hệ Thống Karaoke</a>
+                </li>
+                <li class="hidden-affix ">
+                    <a th:href="'/khuyen-mai.html?locationId=' + ${localStore?.id}">Khuyến Mãi</a>
+                </li>
+            </ul>
+
+            <ul class="nav secondary-nav visible-affix">
+                <li class="nav-cart" style="margin: 5px; height: 30px;">
+                    <a href="tel:19003118" data-toggle="dropdown" style="height: 30px;">
+                        <i class="fa fa-phone"></i>
+                        <span class="hd-cart-text">1900 3118</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</div>
+</body>
+</html>

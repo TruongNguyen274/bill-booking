@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title th:text="${singerDTO.name + ' | Bill Booking'}">Ca Sĩ | Bill Booking</title>
+
+    <meta http-equiv="Content-Language" content="vn">
+    <meta name="description" content="Booking liền tay có ngay BILL chất">
+    <meta name="keywords" content="Bill Booking, BillBooking, karaoke, booking karaoke, đặt phòng karaoke, mã giảm giá karaoke">
+    
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/base-3.7.8.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/app-9.10.77.min.css}">
+
+    <!-- Javascript -->
+    <script>
+        var url = 'http://billbooking.vn';
+        var productId = 0;
+        var moduleName = 'index';
+        var controllerName = 'index';
+        var actionName = 'index';
+        var cookieDomain = '.billbooking.vn';
+        var facebookAppId = '';
+        var isMoblieApp = false;
+    </script>
+</head>
+
+<body class="page-product ">
+    <div id="fb-root"></div>
+    <div id="ohsnap"></div>
+
+    <div id="hd-container" class="hd-container">
+        <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container" data-effect="hd-effect-4"><i
+                class="fa fa-times"></i></a>
+
+        <div class="hd-pusher">
+            <div class="hd-content">
+                <div class="hd-content-inner">
+                    <div id="page-wrapper">
+                        <div class="hd-touch-layer"></div>
+                        <div th:replace="fragments/frontend/headerfull :: headerfull" />
+                        <div class="breadcrumb">
+                            <div class="container">
+                                <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+                                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                        <a class="breadcrumb__link breadcrumb__link--home"
+                                            href="/" itemprop="item" title="Trang chủ">
+                                            <span>Trang chủ</span>
+                                            <meta itemprop="name" content="HOTDEAL" />
+                                            <meta itemprop="position" content="1" />
+                                        </a>
+                                    </li>
+                                    <li><span class="breadcrumb__sep"><i class="fa fa-angle-right"></i></span></li>
+                                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                        <a class="breadcrumb__link breadcrumb__link--last"
+                                            href="" title="Du Lịch">
+                                            <span itemprop="name">Ca Sĩ</span>
+                                            <meta itemprop="position" content="1" />
+                                        </a>
+                                    </li>
+                                    <li><span class="breadcrumb__sep"><i class="fa fa-angle-right"></i></span></li>
+                                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                        <a class="breadcrumb__link breadcrumb__link--last"
+                                            href=""
+                                            th:title="${singerDTO.name}">
+                                            <span itemprop="name" th:text="${singerDTO.name}"></span>
+                                            <meta itemprop="position" content="2" />
+                                        </a>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <main id="main" class="main-content clearfix">
+                            <div class="container">
+                                <div itemscope itemtype="http://schema.org/Product">
+                                    <div class="product product--details clearfix">
+                                        <div id="product-gallery-365416" class="product__gallery gallery "
+                                            data-max-thumbs="5">
+                                            <div class="gallery__image media-gallery">
+                                                <a href="#" class="">
+                                                    <img width="400" height="400" itemprop="image"
+                                                        style="max-width: 100%;"
+                                                        th:src="@{${singerDTO.avatar}}"
+                                                        alt="" />
+                                                </a>
+
+<!--                                                <a href="#" class="" th:each="item : ${karaokeImageList}">-->
+<!--                                                    <img width="400" height="400" itemprop="image"-->
+<!--                                                        style="max-width: 100%;" class="lazyOwl"-->
+<!--                                                        th:attr="data-src=@{${item.avatar}}"-->
+<!--                                                        th:src="@{${item.avatar}}"-->
+<!--                                                        alt="" />-->
+<!--                                                </a>-->
+                                            </div>
+
+                                            <div class="gallery__thumbnails">
+                                                <a class=""><img
+                                                        th:src="@{${singerDTO.avatar}}"
+                                                        alt="" /></a>
+<!--                                                <a class="" th:each="item : ${karaokeImageList}"><img-->
+<!--                                                        th:attr="data-src=@{${item.avatar}}"-->
+<!--                                                        th:src="@{${item.avatar}}"-->
+<!--                                                        alt="" /></a>-->
+                                            </div>
+                                        </div>
+                                        <div class="product__details">
+                                            <div class="product__header">
+                                                <h1 class="product__title" itemprop="name" th:text="${singerDTO.name}"></h1>
+                                            </div>
+
+                                            <div class="product__description" style="border-bottom: 1px solid #eaeaea;">
+                                                <div th:text="${singerDTO.description}"></div>
+                                            </div>
+
+                                            <div class="product__price-info clearfix">
+                                                <div class="box-price-detail">
+<!--                                                    <div-->
+<!--                                                        class="product__price product__price&#45;&#45;list-price _product_price_old">-->
+<!--                                                        <span class="price price&#45;&#45;list-price">-->
+<!--                                                            <span class="hidden-xs hidden-sm">Giá gốc:&nbsp;</span>-->
+<!--                                                            <span class="price__value" th:text="${karaokeDTO.regularPrice}"></span>-->
+<!--                                                            <span class="price__symbol">đ</span>-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+                                                    <br class="hidden-xs hidden-sm" />
+
+
+<!--                                                    <div class="product__price _product_price" itemprop="offers"-->
+<!--                                                        itemscope itemtype="http://schema.org/Offer">-->
+<!--                                                        <link itemprop="availability"-->
+<!--                                                            href="http://schema.org/InStock" />-->
+
+<!--                                                        <meta itemprop="priceCurrency" content="VND" />-->
+<!--                                                        <span class="price">-->
+<!--                                                            <span class="price__value" itemprop="price" th:text="${karaokeDTO.salePrice}"></span>-->
+<!--                                                            <span class="price__symbol">đ</span>-->
+<!--                                                            <span class="price__discount">-27 %</span>-->
+<!--                                                        </span>-->
+
+<!--                                                    </div>-->
+
+                                                    <div class="product__icons bar product__icons_ajax_load_icon icon-deal-detail"
+                                                        data-product-id="365416" data-category="[581,581,768,768]">
+                                                        <img class="icon" src="" alt="">
+                                                    </div>
+
+                                                </div>
+                                                <!-- <div class="box-vnpay-qr">
+                                                    <img
+                                                        src="https://s3-hd.hotdeal.vn/original/qrcode/qrcode_365416_330000_20221016.png?v=20200527">
+                                                    Quét mua bằng QRPay
+                                                    </p>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="content-sidebar clearfix">
+                                        <div class="content">
+
+                                            <div id="product-details" class="tabs tabs--sticky" data-distance="70">
+                                                <ul class="nav nav-tabs tabs__nav">
+                                                    <li style="width: 20%" class="active first"><a
+                                                            href="#chi-tiet">Thông tin chi tiết</a></li>
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content tabs__content">
+                                                    <div class="tab-pane active first" id="chi-tiet">
+                                                        <div class="block__header  clearfix">
+                                                            <h3 class="block__title">Thông tin chi tiết</h3>
+                                                        </div>
+                                                        <div class="block__content clearfix">
+                                                            <div class="wysiwyg">
+                                                                <p style="text-align:justify" th:utext="${singerDTO.detail}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="block block--normal hidden" id="recommend-products">
+                                                <br />
+
+                                                <div class="block__header">
+                                                    <h3 class="block__title">Có thể bạn quan tâm</h3>
+
+                                                    <div class="block__nav">
+                                                        <ul class="">
+                                                            <li><a href="#"
+                                                                    onclick="$('#recommend-products-wrap').trigger('swipe_left'); return false;"><i
+                                                                        class="fa fa-arrow-left"></i></a></li>
+                                                            <li><a href="#"
+                                                                    onclick="$('#recommend-products-wrap').trigger('swipe_right'); return false;"><i
+                                                                        class="fa fa-arrow-right"></i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="block__content clearfix">
+                                                    <div id="recommend-products-wrap"
+                                                        class="row products products--swiper"
+                                                        data-toggle="similar-products"
+                                                        data-api-url="/ajax?api=product.getRecommendProduct"
+                                                        data-enable-screens='["desktop"]' data-limit="8"
+                                                        data-wrapper-class="col-md-3 product-image-padding"
+                                                        data-container-id="recommend-products"
+                                                        data-callback="initProductsSwiper">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="sidebar">
+                                            <div class="box box--narrow">
+                                                <div class="box__header">
+                                                    <h2 class="box__title">THÔNG TIN LIÊN HỆ</h2>
+                                                </div>
+                                                <div class="box__body">
+                                                    <ul class="feature-list">
+                                                        <li>
+                                                            <i class="fa fa-map-marker"></i>
+                                                            <div><span th:text="${singerDTO.name}"></span><br />
+                                                                <strong th:text="${singerDTO.name}"></strong>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+<!--                                            <div class="block block&#45;&#45;normal block-viewed-products">-->
+<!--                                                <div class="block__header">-->
+<!--                                                    <h3 class="block__title">Deal liên quan</h3>-->
+<!--                                                </div>-->
+<!--                                                <div class="block__content clearfix">-->
+<!--                                                    <div class="box box&#45;&#45;nopadding">-->
+<!--                                                        <div class="product&#45;&#45;calltoaction" th:each="item : ${karaokeLocationList}">-->
+<!--                                                            <div class="product__image" style="padding: 3.5%;">-->
+<!--                                                                <img style="height: auto;" itemprop="image" width="230"-->
+<!--                                                                    height="230" class="lazy"-->
+<!--                                                                    data-original="https://static.hotdeal.vn/images/1683/1682946/280x280/365416-detrang-farm-ba-vi-trai-nghiem-1-ngay.jpg"-->
+<!--                                                                    data-src-mobile="https://static.hotdeal.vn/images/1683/1682946/280x280/365416-detrang-farm-ba-vi-trai-nghiem-1-ngay.jpg"-->
+<!--                                                                    src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" />-->
+<!--                                                            </div>-->
+<!--                                                            <div class="product__header" style="padding-top: 0;">-->
+<!--                                                                <h3 class="product__title" th:text="${item.name}"></h3>-->
+<!--                                                            </div>-->
+
+<!--                                                            <div class="product__info">-->
+<!--                                                                <div-->
+<!--                                                                    class="product__price product__price&#45;&#45;list-price visible-xs visible-sm">-->
+<!--                                                                    <span class="price price&#45;&#45;list-price">-->
+<!--                                                                        <span class="price__value" th:text="${item.regularPrice}"></span><span-->
+<!--                                                                            class="price__symbol">đ</span>-->
+<!--                                                                    </span>-->
+<!--                                                                </div>-->
+<!--                                                                <div class="product__price" itemprop="offers" itemscope-->
+<!--                                                                    itemtype="http://schema.org/Offer">-->
+<!--                                                                    <meta itemprop="priceCurrency" content="VND" />-->
+<!--                                                                    <span class="price">-->
+<!--                                                                        <span class="price__value"-->
+<!--                                                                            itemprop="price" th:text="${item.salePrice}"></span><span-->
+<!--                                                                            class="price__symbol">đ</span>-->
+<!--                                                                    </span>-->
+<!--                                                                </div>-->
+<!--                                                            </div>-->
+
+<!--                                                            <div class="product__add-to-cart clearfix"-->
+<!--                                                                style="padding: 0 10px;">-->
+<!--                                                                <form action="/checkout-voucher-step-1" method="post"-->
+<!--                                                                    class="add-to-cart add-to-cart&#45;&#45;form">-->
+<!--                                                                    <div class="add-to-cart__actions add-to-cart-buttons"-->
+<!--                                                                        style="padding-top: 0;">-->
+<!--                                                                        <a id="btn&#45;&#45;buy-now"-->
+<!--                                                                            th:href="'/chi-tiet.html?ownerId=' + ${item.id}"-->
+<!--                                                                            class="btn btn-success btn&#45;&#45;buy-now">XEM THÊM</a>-->
+<!--                                                                    </div>-->
+<!--                                                                </form>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+
+                        <div th:replace="fragments/frontend/footer :: footer" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="#top" data-offset="300" class="btn btn-default btn--to-top to-top"><i class="fa fa-arrow-up"></i></a>
+
+    <script th:src="@{/resources/frontend/js/base-3.7.8.min.js}"></script>
+    <script th:src="@{/resources/frontend/js/app-9.10.77.min.js}"></script>
+    <script th:src="@{/resources/frontend/js/ld.js}"></script>
+
+</body>
+
+</html>

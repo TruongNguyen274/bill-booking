@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tài Khoản | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <div th:replace="fragments/backend/header :: header"/>
+    <div th:replace="fragments/backend/menu :: menu"/>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+                            <li class="breadcrumb-item"><a href="/quan-ly/profile/">Tài Khoản</a></li>
+                            <li class="breadcrumb-item active">Biểu Mẫu</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Thông Tin Tài Khoản</h3>
+                            </div>
+
+                            <form id="quickForm"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  th:action="@{/quan-ly/profile/bieu-mau/}"
+                                  th:object="${accountDTO}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="alert alert-dismissible col-md-12" th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                                             th:classappend="${messageDTO.status == 'success' ? 'alert-success' : 'alert-warning'}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                                            <span th:text="${messageDTO.message}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputAccountId">Mã Tài Khoản</label>
+                                                <input type="text" name="code" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('id')} ? 'is-invalid' : ''"
+                                                       id="exampleInputAccountId" placeholder="TK00001" th:field="*{code}" readonly>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputUsername">Tên đăng nhập</label>
+                                                <input type="text" name="username" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('username')} ? 'is-invalid' : ''"
+                                                       id="inputUsername" th:field="*{username}" readonly>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputRole">Quyền truy cập</label>
+                                                <select class="form-control select2" style="width: 100%;" id="inputRole" th:field="*{roleId}" disabled>
+                                                    <option value="0">Chọn Quyền Truy Cập</option>
+                                                    <option th:each="item : ${roleList}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.name}"/>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputFullName">Họ Và Tên</label>
+                                                <input type="text" name="fullName" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''"
+                                                       id="inputFullName" placeholder="Nguyễn Văn Nam..." th:field="*{fullName}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></p>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="inputEmail">Địa Chỉ Email</label>
+                                                    <input type="email" name="email" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                                                           id="inputEmail" placeholder="abc@mail.com..." th:field="*{email}">
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="inputEmailVerify">Xác Minh</label>
+                                                    <select id="inputEmailVerify" class="form-control select2" style="width: 100%;"
+                                                            th:field="*{verifyEmail}" readonly disabled>
+                                                        <option value="true">Đã xác minh</option>
+                                                        <option value="false">Chờ xác minh</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <label for="inputPhone">Số Điện Thoại</label>
+                                                    <input type="text" name="phone" class="form-control"
+                                                           th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''"
+                                                           id="inputPhone" placeholder="0356554444..." th:field="*{phone}">
+                                                    <p class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="inputPhoneVerify">Xác Minh</label>
+                                                    <select id="inputPhoneVerify" class="form-control select2" style="width: 100%;"
+                                                            th:field="*{verifyPhone}" readonly disabled>
+                                                        <option value="true">Đã xác minh</option>
+                                                        <option value="false">Chờ xác minh</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="status">Trạng Thái</label>
+                                                <select id="status" class="form-control select2" style="width: 100%;" th:field="*{status}">
+                                                    <option value="true">Kích Hoạt</option>
+                                                    <option value="false">Tạm Ngưng</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Khu Vực</label>
+                                                <select class="form-control select2" style="width: 100%;" th:field="*{locationId}">
+                                                    <option value="0">Chọn Khu Vực</option>
+                                                    <option th:each="item : ${locationList}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.name}"/>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAddress">Địa chỉ</label>
+                                                <textarea type="text" name="address" class="form-control"
+
+                                                       id="inputAddress" placeholder="Số nhà, đường...." th:field="*{address}">
+                                                </textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Hình Ảnh</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="avatarMul" accept="image/png, image/jpeg">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6" th:if="${accountDTO.avatar != null }">
+                                                    <img th:src="@{${accountDTO.avatar}}" width="100%" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <input type="hidden" name="id" class="form-control" th:field="*{id}">
+                                    <button type="submit" class="btn btn-primary">Lưu Dữ Liệu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+
+</body>
+</html>

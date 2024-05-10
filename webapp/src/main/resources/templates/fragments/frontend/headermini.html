@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="headermini">
+
+        <!-- Header -->
+        <header id="header" class="header clearfix">
+            <div th:replace="fragments/frontend/headertop :: headertop"/>
+
+            <div class="header__main header__main--simple clearfix">
+                <div class="container">
+                    <div class="row">
+                        <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container"
+                           data-effect="hd-effect-4"><i class="fa fa-bars"></i></a>
+                        <a class="toggle-search visible-xs visible-sm" data-target="#main-search">
+                            <i class="hd hd-search"></i>
+                        </a>
+
+                        <div id="logo" class="col-md-4">
+                            <a th:href="'/trang-chu.html?locationId=' + ${localStore?.id}">
+                                <img width="250px" th:src="@{/resources/images/logo/logo_billbooking_1000px.png}">
+                            </a>
+                        </div>
+
+                        <div style="padding-left: 10px;" class="search-area col-md-6 hide"
+                             id="main-search">
+                            <form action="/tim-kiem" method="get" class="hide">
+                                <div class="search-box form-inline clearfix">
+                                    <div class="search-box__category"><select class="selectpicker"
+                                                                              id="category_search" name="category">
+                                        <option value="0">Tất cả danh mục</option>
+                                        <option value="557">- Ẩm thực</option>
+                                        <option value="767">- Hotel &amp; Resort</option>
+                                        <option value="579">- Spa & Làm đẹp</option>
+                                        <option value="1934">- Giải trí &amp; Thể thao</option>
+                                        <option value="1980">- Massage body/ massage foot</option>
+                                        <option value="1960">- Đào tạo</option>
+                                        <option value="1990">- Bệnh viện - Phòng khám</option>
+                                        <option value="139">- Buffet</option>
+                                        <option value="1994">- Nha khoa</option>
+                                        <option value="581">- Du Lịch</option>
+                                    </select>
+                                        <div class="btn-group bootstrap-select">
+                                            <button type="button"
+                                                    class="btn dropdown-toggle btn-default"
+                                                    data-toggle="dropdown" data-id="category_search"
+                                                    title="Tất cả danh mục" aria-expanded="false">
+                                                                <span class="filter-option pull-left">Tất cả danh
+                                                                    mục</span>&nbsp;<span class="caret"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="search-box__input" style="overflow: visible;">
+                                        <input type="text" id="search_all"
+                                               class="form-control input-search" name="q"
+                                               placeholder="Tìm kiếm sản phẩm / khuyến mãi" value="" />
+
+                                        <a class="btn btn--remove hidden"><i
+                                                class="fa fa-times"></i></a>
+
+                                        <a class="btn btn--cancel hidden">Hủy</a>
+
+                                        <button class="btn btn-danger">
+                                            <i class="fa fa-search"></i>
+                                            <span class="sr-only">Tìm kiếm</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-2 header-cart-wrapper hide">
+                            <ul class="header-cart">
+                                <li class="nav-cart">
+                                    <a href="#" data-toggle="dropdown"><i class="fa fa-shopping-cart"></i><span
+                                            class="circle">0</span> <span
+                                            class="hidden-xs hidden-sm">Giỏ hàng</span></a>
+                                    <div class="dropdown-menu dropdown-cart" role="menu">
+                                        <div class="minicart__wrapper">
+                                        </div>
+
+                                        <div class="minicart__summary">
+                                            Tổng cộng: <strong>
+                                                                <span class="price price--highlight">
+                                                                    <span class="price__value">0</span>
+                                                                    <span class="price__symbol">đ</span>
+                                                                </span></strong>
+                                        </div>
+                                        <div class="minicart__actions">
+                                            <a class="btn btn--view-cart" href="/checkout-step-1"
+                                               rel="nofollow">Xem giỏ hàng</a>
+                                            <a class="btn btn-success btn--buy-now btn--buy-now-new"
+                                               href="/checkout-step-2" rel="nofollow">Đặt hàng</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Header -->
+    </div>
+
+</body>
+</html>

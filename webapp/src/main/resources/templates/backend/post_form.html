@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản Lý Bài Viết | Bill Booking</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/summernote/summernote-bs4.min.css}">
+    <!-- CodeMirror -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/codemirror/codemirror.css}">
+    <link rel="stylesheet" th:href="@{/backend/plugins/codemirror/theme/monokai.css}">
+    <!-- SimpleMDE -->
+    <link rel="stylesheet" th:href="@{/backend/plugins/simplemde/simplemde.min.css}">
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+    <div th:replace="fragments/backend/header :: header"/>
+    <div th:replace="fragments/backend/menu :: menu"/>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+                            <li class="breadcrumb-item"><a href="/quan-ly/bai-viet/">Quan Lý Bài Viết</a></li>
+                            <li class="breadcrumb-item active">Biểu Mẫu</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Thông Tin Bài Viết</h3>
+                            </div>
+
+                            <form id="quickForm"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  th:action="@{/quan-ly/bai-viet/bieu-mau/}"
+                                  th:object="${postDTO}">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="alert alert-dismissible col-md-12" th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                                             th:classappend="${messageDTO.status == 'success' ? 'alert-success' : 'alert-warning'}">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                            <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                                            <span th:text="${messageDTO.message}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputName">Tên Bài Viết</label>
+                                                <input type="text" name="name" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                                                       id="inputName" placeholder="..." th:field="*{name}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Quán Karaoke</label>
+                                                <select class="form-control select2" style="width: 100%;"
+                                                        th:disabled="${isOwner != null}"
+                                                        th:field="*{ownerId}">
+                                                    <option th:each="item : ${karaokeList}"
+                                                            th:value="${item.id}"
+                                                            th:text="${item.name}"/>
+                                                </select>
+                                                <p class="text-danger" th:if="${#fields.hasErrors('owner')}"
+                                                   th:errors="*{owner}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Hình Ảnh</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" name="avatarMul" accept="image/png, image/jpeg">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6" th:if="${postDTO.avatar != null }">
+                                                    <img th:src="@{${postDTO.avatar}}" width="100%" />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="inputDescription">Mô Tả Ngắn</label>
+                                                <input type="text" name="description" class="form-control"
+                                                       th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                                                       id="inputDescription" placeholder="..." th:field="*{description}">
+                                                <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputProgress">Trạng Thái</label>
+                                                <select id="inputProgress" class="form-control select2" style="width: 100%;" th:field="*{progress}">
+                                                    <option value="PENDING">Chờ Duyệt</option>
+                                                    <option value="APPROVED">Duyệt</option>
+                                                    <option value="COMPLETED">Hoàn Thành</option>
+                                                    <option value="CANCELED">Hủy</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card card-outline card-info">
+                                            <div class="card-header">
+                                                <h3 class="card-title">
+                                                    Mô Tả Chi Tiết
+                                                </h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <textarea id="summernote" style="height: 500px" th:field="*{detail}"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <input type="hidden" name="id" class="form-control" th:field="*{id}">
+                                    <input type="hidden" name="ownerId" class="form-control" th:field="*{ownerId}">
+                                    <button type="submit" class="btn btn-primary">Lưu Dữ Liệu</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- dropzonejs -->
+<script th:src="@{/backend/plugins/dropzone/min/dropzone.min.js}"></script>
+<!-- Summernote -->
+<script th:src="@{/backend/plugins/summernote/summernote-bs4.min.js}"></script>
+
+<!-- CodeMirror -->
+<script th:src="@{/backend/plugins/codemirror/codemirror.js}"></script>
+<script th:src="@{/backend/plugins/codemirror/mode/css/css.js}"></script>
+<script th:src="@{/backend/plugins/codemirror/mode/xml/xml.js}"></script>
+<script th:src="@{/backend/plugins/codemirror/mode/htmlmixed/htmlmixed.js}"></script>
+<!-- Page specific script -->
+<script>
+    $(function () {
+        // Summernote
+        $('#summernote').summernote()
+
+        // CodeMirror
+        CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+            mode: "htmlmixed",
+            theme: "monokai"
+        });
+    })
+</script>
+</body>
+</html>

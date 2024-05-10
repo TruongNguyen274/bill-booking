@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Trang Chủ | Bill Booking</title>
+  <meta http-equiv="Content-Language" content="vn">
+  <meta name="description" content="Booking liền tay có ngay BILL chất">
+  <meta name="keywords" content="Bill Booking, BillBooking, karaoke, booking karaoke, đặt phòng karaoke, mã giảm giá karaoke">
+  
+  <!-- Favicon -->
+  <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="stylesheet" th:href="@{/resources/frontend/css/base-3.7.8.min.css}">
+  <link rel="stylesheet" th:href="@{/resources/frontend/css/app-9.10.77.min.css}">
+
+    <!-- Javascript -->
+    <script>
+      var url = 'http://billbooking.vn';
+      var productId = 0;
+      var moduleName = 'index';
+      var controllerName = 'index';
+      var actionName = 'index';
+      var cookieDomain = '.billbooking.vn';
+      var facebookAppId = '';
+      var isMoblieApp = false;
+  </script>
+</head>
+
+<body class="home page-home ">
+  <div id="fb-root"></div>
+  <div id="ohsnap"></div>
+
+  <div id="hd-container" class="hd-container">
+
+    <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container" data-effect="hd-effect-4"><i
+        class="fa fa-times"></i></a>
+
+    <div th:replace="fragments/frontend/mobile :: mobile" />
+
+    <div class="hd-pusher">
+      <div class="hd-content">
+        <div class="hd-content-inner">
+          <div id="page-wrapper">
+            <div class="hd-touch-layer"></div>
+
+            <div th:replace="fragments/frontend/headermini :: headermini" />
+
+            <main id="main" class="main-content clearfix" style="padding: 20px 0 40px">
+              <div class="container">
+                <div class="content content--full">
+
+                  <div class="box box--center">
+                    <div class="box__header">
+                      <h2 class="box__title">Đăng ký tài khoản</h2>
+                    </div>
+                    <div class="box__body">
+                      <div class="alert alert-danger fade in" th:if="${error != null}">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                        <strong>Cảnh báo ! </strong>
+                        <span th:if="${error != null && error.get('fullName') != null}" th:text="${error.fullName}"></span>
+                        <span th:if="${error != null && error.get('email') != null}" th:text="${error.email}"></span>
+                        <span th:if="${error != null && error.get('phone') != null}" th:text="${error.phone}"></span>
+                        <span th:if="${error != null && error.get('password') != null}" th:text="${error.password}"></span>
+                        <span th:if="${error != null && error.get('msg') != null}" th:text="${error.msg}"></span>
+                      </div>
+                      <form class="form form--general form--registration" method="post"
+                            th:action="@{/dang-ky.html}" th:object="${accountDTO}" data-toggle="validator">
+                        <div class="row form">
+                          <div class="col-md-12">
+                            <div class="form__inner">
+                              <div class="form-group form-group-lg">
+                                <label for="fullName" class="control-label">Họ và Tên <span
+                                        class="text-color-red">(*)</span></label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-user-o"></i></div>
+                                  <input type="text" class="form-control" id="fullName" name="fullName"
+                                         placeholder="Nhập nhập Họ & Tên..." autocomplete="off" value="" data-fv-notempty="true"
+                                         data-fv-notempty-message="Vui lòng nhập Họ & Tên!" data-fv-stringlength="true"
+                                         data-fv-stringlength-max="60"
+                                         data-fv-stringlength-message="Họ & Tên nhập tối đa 60 ký tự"
+                                         th:field="*{fullName}"/>
+                                </div>
+                              </div>
+                              <div class="form-group form-group-lg">
+                                <label for="phone" class="control-label">Số Điện Thoại <span
+                                    class="text-color-red">(*)</span></label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                                  <input type="text" class="form-control" id="phone" name="phone"
+                                    placeholder="Nhập Số Điện Thoại..." autocomplete="off" value=""
+                                    data-fv-notempty="true" data-fv-notempty-message="Vui lòng nhập Số Điện Thoại!"
+                                    data-fv-stringlength="true" data-fv-stringlength-max="60"
+                                    data-fv-stringlength-message="Tên đăng nhập tối đa 60 ký tự"
+                                         th:field="*{phone}"/>
+                                </div>
+                                <small class="help-block"
+                                       data-fv-validator="notEmpty"
+                                       data-fv-for="phone"
+                                       data-fv-result="NOT_VALIDATED"
+                                       style="color: red"
+                                       th:if="${error != null && error.get('phone') != null}"
+                                       th:text="${error.phone}"></small>
+                              </div>
+                              <div class="form-group form-group-lg">
+                                <label for="email" class="control-label">Địa chỉ Email <span
+                                        class="text-color-red">(*)</span></label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                                  <input type="text" class="form-control" id="email" name="email"
+                                         placeholder="Nhập địa chỉ Email..." autocomplete="off" value=""
+                                         data-fv-notempty="true" data-fv-notempty-message="Vui lòng nhập Địa chỉ Email!"
+                                         data-fv-stringlength="true" data-fv-stringlength-max="60"
+                                         data-fv-stringlength-message="Tên đăng nhập tối đa 60 ký tự"
+                                         th:field="*{email}"/>
+                                </div>
+                                <small class="help-block" data-fv-validator="notEmpty" data-fv-for="email" data-fv-result="VALID" style="display: none;">Vui lòng nhập mật khẩu!</small>
+                                <small class="help-block"
+                                       data-fv-validator="notEmpty"
+                                       data-fv-for="email"
+                                       data-fv-result="NOT_VALIDATED"
+                                       style="color: red; display: block;"
+                                       th:if="${error != null && error.get('email') != null}"
+                                       th:text="${error.email}"></small>
+                              </div>
+                              <div class="form-group form-group-lg">
+                                <label for="password" class="control-label">Mật khẩu
+                                  <span class="text-color-red">(*)</span></label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                  <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Nhập mật khẩu..." autocomplete="off" value="" data-fv-notempty="true"
+                                    data-fv-notempty-message="Vui lòng nhập mật khẩu!" data-fv-stringlength="true"
+                                    data-fv-stringlength-min="6" data-fv-stringlength-max="32"
+                                    data-fv-stringlength-message="Mật khẩu phải từ 6 đến 32 kí tự"
+                                         th:field="*{password}"/>
+                                        <span style="color: red; width: 100%; margin-top: 10px; display: flex; flex-flow: row;"
+                                              th:if="${error != null && error.get('password') != null}">
+                                      <span th:text="${error.password}"></span>
+                                  </span>
+                                </div>
+                                <small class="help-block"
+                                       data-fv-validator="notEmpty"
+                                       data-fv-for="password"
+                                       data-fv-result="NOT_VALIDATED"
+                                       style="color: red"
+                                       th:if="${error != null && error.get('password') != null}"
+                                       th:text="${error.password}"></small>
+                              </div>
+                              <div class="form-group form-group-lg">
+                                <label for="repassword" class="control-label">Nhập lại
+                                  mật khẩu <span class="text-color-red">(*)</span></label>
+                                <div class="input-group">
+                                  <div class="input-group-addon"><i class="fa fa-lock"></i></div>
+                                  <input type="password" class="form-control" id="repassword" name="repassword"
+                                    placeholder="Nhập lại mật khẩu..." autocomplete="off" value="" data-fv-notempty="true"
+                                    data-fv-notempty-message="Vui lòng nhập lại mật khẩu!" data-fv-identical="true"
+                                    data-fv-identical-field="password"
+                                    data-fv-identical-message="Xác nhận mật khẩu không đúng!"
+                                         th:field="*{repassword}"/>
+                                  <span style="color: red; width: 100%; margin-top: 10px; display: flex; flex-flow: row;"
+                                        th:if="${error != null && error.get('repassword') != null}">
+                                      <span th:text="${error.repassword}"></span>
+                                  </span>
+                                </div>
+                              </div>
+                              <div class="form-group form-group-lg">
+                                <button type="submit" class="btn btn-lg btn-success btn-block">ĐĂNG KÝ</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <!-- <div class="box__footer">
+                      <div class="text-left">
+                        <p style="margin-bottom: 5px;">Hoặc đăng nhập bằng</p>
+                        <div class="box-social">
+                          <a href="javascript:void(0);" class="login-google login-social social-google"
+                            id="login-google"><img src="/assets/images/icon-google.png"
+                              alt="Đăng nhập bằng Google+" /></a>
+                          <a href="javascript:void(0);" class="login-facebook login-social social-facebook"
+                            id="login-facebook"><img src="/assets/images/icon-facebook.png"
+                              alt="Đăng nhập bằng Facebook" /></a>
+                        </div>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            <div th:replace="fragments/frontend/footer :: footer" />
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a href="#top" data-offset="300" class="btn btn-default btn--to-top to-top"><i class="fa fa-arrow-up"></i></a>
+
+  <script th:src="@{/resources/frontend/js/base-3.7.8.min.js}"></script>
+  <script th:src="@{/resources/frontend/js/app-9.10.77.min.js}"></script>
+  <script th:src="@{/resources/frontend/js/ld.js}"></script>
+
+</body>
+
+</html>

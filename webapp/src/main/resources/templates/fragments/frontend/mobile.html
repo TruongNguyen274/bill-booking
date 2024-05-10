@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <div th:fragment="mobile">
+
+        <!-- Mobile -->
+        <div class="hd-menu hd-effect-4 visible-xs visible-sm">
+            <div class="hd-menu-container">
+                <div class="profile">
+                    <div class="profile__avatar">
+                        <img class="img-circle" th:src="@{/resources/frontend/images/no-avatar.gif}" alt="" />
+                    </div>
+                    <div class="profile__info">
+                        <form id="formCity" method="post" action="/doi_dia_diem">
+                            <input type="hidden" name="redirect_url" value="/ho-chi-minh/">
+                            <div class="dropdown dropdown--city">
+                                <a href="#" data-toggle="dropdown">
+                                    <i class="fa fa-map-marker"></i>&nbsp;
+                                    <span>Hồ Chí Minh</span>&nbsp;&nbsp;<i class="fa fa-caret-down"></i>
+                                </a>
+                                <ul id="city-test" class="dropdown-menu dropdown-menu-city">
+                                    <li city-code="437" th:each="item : ${locationStore}"><a href="javascript:void(0);">
+                                        <i class="fa fa-map-marker" th:text="${item.name}"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </form>
+
+                        <div class="text-center" id="mobile_user_header">
+
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="side-nav">
+                    <ul class="nav-menu" style="padding: 10px 0; margin: 0;">
+                        <li class="nav-menu">
+                            <a th:href="'/khuyen-mai.html?locationId=' + ${localStore?.id}">
+                                <i class="fa fa-fire" style="background-color: #ed1c24; font-size:14px;"></i> KHUYẾN MÃI HOT</a>
+                        </li>
+                        <li class="nav-menu">
+                            <a th:href="'/ca-si.html?locationId=' + ${localStore?.id}">
+                                <i class="fa fa-music" style="background-color: #ed1c24; font-size:14px;"></i> BOOK CA SĨ</a>
+                        </li>
+                        <li class="nav-menu">
+                            <a th:href="'/cua-hang.html?locationId=' + ${localStore?.id}">
+                                <i class="fa fa-microphone" style="background-color: #71be0f; font-size:14px;"></i> HỆ THỐNG KARAOKE</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="hotline">
+                    <span class="hotline__text"><a href="/dang-ky.html">Đăng Ký</a></span>
+                </div>
+
+                <div class="hotline">
+                    <span class="hotline__text"><a href="/dang-nhap.html">Đăng Nhập</a></span>
+                </div>
+
+                <div class="hotline">
+                    <span class="hotline__text">HOTLINE</span>
+                    <span class="hotline__number">1900 3118</span>
+                </div>
+
+                <!-- <form action="/registernewletter" method="post" data-toggle="validator">
+                    <div class="newsletter">
+                        <div class="form-group">
+                            <input type="text" class="form-control newsletter__input" name="email_newsletter"
+                                   placeholder="Đăng ký nhận bản tin khuyến mãi" value="" data-fv-notempty="true"
+                                   data-fv-notempty-message="Vui lòng nhập Email"
+                                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                                   data-fv-regexp-message="Email không hợp lệ" />
+                            <button type="submit" class="btn btn-success newsletter__button"><i
+                                    class="fa fa-arrow-circle-right"></i></button>
+                        </div>
+                    </div>
+                </form> -->
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

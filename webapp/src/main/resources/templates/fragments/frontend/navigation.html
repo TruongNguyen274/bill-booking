@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navigation">
+
+    <div id="top-bar" class="header__top top-bar clearfix">
+        <div class="container">
+            <div class="row">
+
+                <div class="top-bar__item top-bar__item--area-selector area-selector pull-left">
+                    <div class="dropdown">
+                        <a href="#" data-toggle="dropdown">
+                            <i class="fa fa-map-marker"></i>&nbsp;&nbsp;<span th:text="${localStore?.name}"></span>&nbsp;<i
+                                class="fa fa-caret-down"></i>
+                        </a>
+                        <ul id="city-test" class="dropdown-menu dropdown-menu-city">
+                            <li city-code="437" th:each="item : ${locationStore}">
+                                <a th:href="'?locationId=' + ${item.id}">
+                                    <i class="fa fa-map-marker" th:text="${item?.name}"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <nav class="top-bar__item top-bar__item--nav navigation navigation--inline pull-right"
+                     style="border-left: 1px solid #dddddd;"
+                     th:if="${userLogin != null}">
+                    <ul id="user_info_header" class="navbar-right">
+                        <li class="dropdown dropdown-arrow">
+                            <a href="/thong-tin-tai-khoan.html" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user-o"></i> <span th:text="${userLogin?.username}"></span> <i
+                                    class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/tai-khoan/thong-tin.html" rel="nofollow" class="underlined">Thông tin tài khoản</a></li>
+                                <li><a href="/tai-khoan/lich-su.html" rel="nofollow" class="underlined">Thông tin đơn hàng</a></li>
+                                <li class="show-in-checkout"><a href="/tai-khoan/dang-xuat.html" rel="nofollow" class="underlined">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav class="top-bar__item top-bar__item--nav navigation navigation--inline pull-right"
+                     style="border-left: 1px solid #dddddd;"
+                     th:if="${userLogin == null}">
+                    <ul id="user_info_header" class="navbar-right">
+                        <li>
+                            <i class="fa fa-user-o"></i>
+                            <a rel="nofollow" href="/dang-ky.html">Đăng ký</a>
+                        </li>
+                        <li>&nbsp; | &nbsp;</li>
+                        <li>
+                            <i class="fa fa-user-o"></i>
+                            <a rel="nofollow" href="/dang-nhap.html">Đăng nhập</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <nav class="top-bar__item top-bar__item--nav navigation navigation--inline pull-right"
+                     style="border-right: 1px solid #fff;">
+                    <ul id="user_support" class="navbar-right">
+                        <li>
+                            <a href="tel:19003118">
+                                <i class="fa fa-phone"></i> Hotline:&nbsp;
+                                <span class="hotline__number"> 1900 3118</span>
+                            </a>
+                        </li>
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li>
+                            <a href="mailto:cs@hotdeal.vn">
+                                <i class="fa fa-envelope"></i> Email:&nbsp;
+                                <span class="hotline__number"> info@billbooking.vn</span>
+                            </a>
+                        </li>
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li>
+                            <a>
+                                <i class="fa fa-question-circle"></i> Hỗ trợ trực tuyến
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

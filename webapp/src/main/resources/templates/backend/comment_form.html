@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bình Luận | Bill Booking</title>
+
+  <!-- Favicon -->
+  <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+  <!-- DataTables -->
+  <link rel="stylesheet" th:href="@{/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+  <link rel="stylesheet" th:href="@{/backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <div th:replace="fragments/backend/header :: header"/>
+  <div th:replace="fragments/backend/menu :: menu"/>
+
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+              <li class="breadcrumb-item"><a href="/quan-ly/binh-luan/">Bình Luận</a></li>
+              <li class="breadcrumb-item active">Biểu Mẫu</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Thông Tin Bình Luận</h3>
+              </div>
+
+              <form id="quickForm"
+                    method="post"
+                    th:action="@{/quan-ly/binh-luan/bieu-mau/}"
+                    th:object="${commentDTO}">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="alert alert-dismissible col-md-12" th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                         th:classappend="${messageDTO.status == 'success' ? 'alert-success' : 'alert-warning'}">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                      <span th:text="${messageDTO.message}"></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                        <label>Quán Karaoke</label>
+                        <select class="form-control select2" style="width: 100%;"
+                                th:disabled="true"
+                                th:field="*{ownerId}">
+                          <option th:each="item : ${karaokeList}"
+                                  th:value="${item.id}"
+                                  th:text="${item.name}"/>
+                        </select>
+                        <p class="text-danger" th:if="${#fields.hasErrors('owner')}"
+                           th:errors="*{owner}"></p>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputAccountName">Họ & Tên</label>
+                        <input type="text" name="description" class="form-control"
+                               id="inputAccountName" placeholder="..." th:field="*{account.fullName}" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label for="inputAccountEmail">Email</label>
+                        <input type="text" name="description" class="form-control"
+                               id="inputAccountEmail" placeholder="..." th:field="*{account.email}" readonly>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputProgress">Trạng Thái</label>
+                        <select id="inputProgress" class="form-control select2" style="width: 100%;" th:field="*{progress}">
+                          <option value="PENDING">Chờ Duyệt</option>
+                          <option value="APPROVED">Duyệt</option>
+                          <option value="COMPLETED">Hoàn Thành</option>
+                          <option value="CANCELED">Hủy</option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="inputRate">Đánh Giá</label>
+                        <select id="inputRate" class="form-control select2" style="width: 100%;" th:field="*{rate}">
+                          <option value="1">1*</option>
+                          <option value="2">2**</option>
+                          <option value="3">3***</option>
+                          <option value="4">4****</option>
+                          <option value="5">5*****</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputReply">Nội Dung</label>
+                        <textarea style="height: 210px " type="text" name="description" class="form-control"
+                               th:classappend="${#fields.hasErrors('reply')} ? 'is-invalid' : ''"
+                               id="inputReply" placeholder="..." th:field="*{reply}">
+                        </textarea>
+                        <p class="text-danger" th:if="${#fields.hasErrors('reply')}" th:errors="*{reply}"></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <input type="hidden" name="id" class="form-control" th:field="*{id}">
+                  <button type="submit" class="btn btn-primary">Lưu Dữ Liệu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": [
+        "copy",
+        "csv",
+        {
+          extend: 'excel',
+          exportOptions: {
+            columns: [ 0, 1, 2, 3, 4 ]
+          }
+        },
+        {
+          extend: 'pdf',
+          exportOptions: {
+            columns: [ 0, 1, 2, 3, 4 ]
+          }
+        },
+        {
+          extend: 'print',
+          exportOptions: {
+            columns: [ 0, 1, 2, 3, 4 ]
+          }
+        },
+        "colvis"
+      ]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+  });
+</script>
+
+</body>
+</html>

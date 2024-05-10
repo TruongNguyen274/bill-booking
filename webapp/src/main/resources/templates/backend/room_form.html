@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quản Lý Phòng Karaoke | Bill Booking</title>
+
+  <!-- Favicon -->
+  <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/backend/plugins/fontawesome-free/css/all.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/backend/dist/css/adminlte.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <div th:replace="fragments/backend/header :: header"/>
+  <div th:replace="fragments/backend/menu :: menu"/>
+
+  <div class="content-wrapper">
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h th:text="${karaokeDTO?.name}"></h>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/quan-ly/trang-chu/">Trang Chủ</a></li>
+              <li class="breadcrumb-item"><a href="@{'/quan-ly/quan-karaoke/'+${karaokeDTO?.id}+'/phong'}">Phòng Karaoke</a></li>
+              <li class="breadcrumb-item active">Biểu Mẫu</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Thông Tin Phòng</h3>
+              </div>
+
+              <form id="quickForm"
+                    method="post"
+                    th:action="@{'/quan-ly/quan-karaoke/phong/bieu-mau/'}"
+                    th:object="${roomDTO}">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="alert alert-dismissible col-md-12" th:if="${messageDTO != null && messageDTO.key == 'save'}"
+                         th:classappend="${messageDTO.status == 'success' ? 'alert-success' : 'alert-warning'}">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <h5><i class="icon fas fa-exclamation-triangle"></i> Thông Báo</h5>
+                      <span th:text="${messageDTO.message}"></span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+
+                      <div class="form-group">
+                        <label for="inputName">Tên Phòng</label>
+                        <input type="text" name="name" class="form-control"
+                               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''"
+                               id="inputName" placeholder="..." th:field="*{name}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputRoomType">Loại phòng</label>
+                        <select id="inputRoomType" class="form-control select2" style="width: 100%;" th:field="*{roomType}">
+                          <option value="VIP">VIP</option>
+                          <option value="NORMAL">Thường</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputDescription">Mô Tả</label>
+                        <textarea style="height: 125px;" type="text" name="description"
+                                  class="form-control"
+                                  th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''"
+                                  id="exampleInputDescription" th:field="*{description}" />
+                        <p class="text-danger" th:if="${#fields.hasErrors('description')}"
+                           th:errors="*{description}"></p>
+                      </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="inputRegularPrice">Giá Phòng</label>
+                        <input type="text" name="price" class="form-control"
+                               th:classappend="${#fields.hasErrors('regularPrice')} ? 'is-invalid' : ''"
+                               id="inputRegularPrice" placeholder="..." th:field="*{regularPrice}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('regularPrice')}" th:errors="*{regularPrice}"></p>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="inputSalePrice">Giảm Giá</label>
+                        <input type="text" name="price" class="form-control"
+                               th:classappend="${#fields.hasErrors('salePrice')} ? 'is-invalid' : ''"
+                               id="inputSalePrice" placeholder="..." th:field="*{salePrice}">
+                        <p class="text-danger" th:if="${#fields.hasErrors('salePrice')}" th:errors="*{salePrice}"></p>
+                      </div>
+
+                      <div class="form-group">
+                          <label for="inputStatus">Trạng Thái</label>
+                          <select id="inputStatus" class="form-control select2" style="width: 100%;" th:field="*{status}">
+                            <option value="true">Kích Hoạt</option>
+                            <option value="false">Tạm Ngưng</option>
+                          </select>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <input type="hidden" name="id" class="form-control" th:field="*{id}">
+                  <input type="hidden" name="karaokeId" class="form-control" th:value="${karaokeDTO?.id}">
+                  <button type="submit" class="btn btn-primary">Lưu Dữ Liệu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div th:replace="fragments/backend/footer :: footer"/>
+
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/backend/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/backend/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/backend/dist/js/adminlte.min.js}"></script>
+
+<!-- jquery-validation -->
+<script th:src="@{/backend/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/backend/plugins/jquery-validation/additional-methods.min.js}"></script>
+
+</body>
+</html>

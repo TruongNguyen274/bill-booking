@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Đơn Hàng | Bill Booking</title>
+
+    <meta http-equiv="Content-Language" content="vn">
+    <meta name="description" content="Booking liền tay có ngay BILL chất">
+    <meta name="keywords" content="Bill Booking, BillBooking, karaoke, booking karaoke, đặt phòng karaoke, mã giảm giá karaoke">
+    
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{'/images/logo-billbooking.ico'}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/base-3.7.8.min.css}">
+    <link rel="stylesheet" th:href="@{/resources/frontend/css/app-9.10.77.min.css}">
+
+    <!-- Javascript -->
+    <script>
+        var url = 'http://billbooking.vn';
+        var productId = 0;
+        var moduleName = 'index';
+        var controllerName = 'index';
+        var actionName = 'index';
+        var cookieDomain = '.billbooking.vn';
+        var facebookAppId = '';
+        var isMoblieApp = false;
+    </script>
+</head>
+
+<body class="page-product ">
+<div id="fb-root"></div>
+<div id="ohsnap"></div>
+
+<div id="hd-container" class="hd-container">
+    <a class="toggle-nav visible-xs visible-sm" data-target="#hd-container" data-effect="hd-effect-4"><i
+            class="fa fa-times"></i></a>
+
+    <div th:replace="fragments/frontend/mobile :: mobile" />
+
+    <div class="hd-pusher">
+        <div class="hd-content">
+            <div class="hd-content-inner">
+                <div id="page-wrapper">
+                    <div class="hd-touch-layer"></div>
+                    <div th:replace="fragments/frontend/headerfull :: headerfull" />
+
+                    <script>
+                        productId = 365416;
+                    </script>
+                    <div class="breadcrumb">
+                        <div class="container">
+                            <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+                                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                    <a class="breadcrumb__link breadcrumb__link--home" href="/" itemprop="item"
+                                       title="Trang chủ">
+                                        <span>Trang chủ</span>
+                                        <meta itemprop="name" content="HOTDEAL" />
+                                        <meta itemprop="position" content="1" />
+                                    </a>
+                                </li>
+                                <li><span class="breadcrumb__sep"><i class="fa fa-angle-right"></i></span></li>
+                                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                    <a class="breadcrumb__link breadcrumb__link--last" href="" title="Du Lịch">
+                                        <span itemprop="name">Đơn Hàng</span>
+                                        <meta itemprop="position" content="1" />
+                                    </a>
+                                </li>
+                                <li><span class="breadcrumb__sep"><i class="fa fa-angle-right"></i></span></li>
+                                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                                    <a class="breadcrumb__link breadcrumb__link--last" href=""
+                                       th:title="${bookingDTO.code}">
+                                        <span itemprop="name" th:text="${bookingDTO.code}"></span>
+                                        <meta itemprop="position" content="2" />
+                                    </a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <main id="main" class="main-content clearfix page-checkout">
+                        <div class="container">
+
+                            <div class="visible-xs visible-sm">
+                                <ol class="progress-steps">
+                                    <li data-step="1" class="is-complete">
+                                        <a href="/checkout-step-1">Giỏ hàng</a>
+                                    </li>
+                                    <li data-step="2" class="is-active">
+                                        <a href="/checkout-step-2">Thông Tin Giao Hàng</a>
+                                    </li>
+                                    <li data-step="3" class=" progress__last">
+                                        <a href="#" onclick="$('#checkout-step-2-submit').trigger('click');">Thanh
+                                            Toán</a>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div class="content-sidebar--2">
+                                <div class="content">
+                                    <div class="box">
+                                        <form class="form form-blocking form--general check-out-step-2">
+                                            <div class="box__header">
+                                                <h2 class="box__title">THÔNG TIN ĐƠN HÀNG</h2>
+
+                                                <a href="/checkout-step-1"
+                                                   class="btn btn--back visible-xs visible-sm"><i
+                                                        class="fa fa-angle-left"></i></a>
+                                            </div>
+                                            <div class="box__body address-container ">
+                                                <div class="address-edit editable-section" id="address-edit-">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <a class="btn-add-address" th:if="${msg != null && msg == 'success'}" style="font-size: 20px;">
+                                                                Đơn Hàng của bạn đã được đặt thành công!
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr th:if="${msg != null && msg == 'success'}" />
+
+                                                    <div class="row form">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="code" class="control-label">Mã Đơn Hàng</label>
+                                                                <div>
+                                                                    <input type="text" class="form-control"
+                                                                           tabindex="1" id="code" name="code"
+                                                                           th:value="${bookingDTO.code}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="fullName" class="control-label">Họ Và Tên</label>
+                                                                <div>
+                                                                    <input type="text" class="form-control"
+                                                                           tabindex="1" id="fullName" name="fullName"
+                                                                           th:value="${bookingDTO.account.fullName}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg ">
+                                                                <label for="email" class="control-label">Địa chỉ Email</label>
+                                                                <div>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           tabindex="2" id="email" name="email"
+                                                                           th:value="*{bookingDTO.account.email}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="totalPeople" class="control-label">Số Người Tham Gia</label>
+                                                                <div>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           tabindex="2" id="totalPeople" name="totalPeople"
+                                                                           th:value="${bookingDTO.totalPeople}" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="progress" class="control-label">Trạng Thái</label>
+                                                                <div>
+                                                                    <input type="text" class="form-control"
+                                                                           tabindex="1" id="progress" name="progress"
+                                                                           th:value="${bookingDTO.progress}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="timeInput" class="control-label">Thời Gian Đặt Phòng</label>
+                                                                <div>
+                                                                    <input type="text"
+                                                                           class="form-control" tabindex="3"
+                                                                           id="timeInput" name="timeInput"
+                                                                           th:value="${bookingDTO.timeInput}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg ">
+                                                                <label for="phone" class="control-label">Số điện thoại</label>
+                                                                <div>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           tabindex="2" id="phone" name="phone"
+                                                                           th:value="${bookingDTO.account.phone}" readonly />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="roomType" class="control-label">Loại Phòng</label>
+                                                                <div>
+                                                                    <input type="text"
+                                                                           class="form-control"
+                                                                           tabindex="2" id="roomType" name="roomType"
+                                                                           th:value="${bookingDTO.roomType}" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="owner" class="control-label">Quán Karaoke</label>
+                                                                <div>
+                                                                    <textarea class="form-control"
+                                                                           tabindex="3" id="owner" name="owner" rows="5"
+                                                                           th:text="${bookingDTO.owner.name + ' - ' + bookingDTO.owner.phone + ' - ' + bookingDTO.owner.address}" readonly >
+                                                                    </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="form-group form-group-lg">
+                                                                <label for="note" class="control-label">Ghi Chú</label>
+                                                                <div>
+                                                                    <input type="text" class="form-control"
+                                                                           tabindex="3" id="note" name="note"
+                                                                           th:value="${bookingDTO.note}" readonly />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="sidebar sidebar--checkout sidebar--checkout-2">
+                                    <div class="box">
+                                        <div class="box__header">
+                                            <h2 class="box__title">Ghi Chú</h2>
+                                            <div class="box__tools"></div>
+                                        </div>
+                                        <div class="box__body">
+                                            <div class="order-items">
+                                                <div class="order-item">
+                                                    <div class="name">
+                                                        <a target="_blank" th:href="${'/chi-tiet.html?ownerId=' + bookingDTO.ownerId}"
+                                                           th:text="${bookingDTO.owner.name + ' - ' + bookingDTO.owner.address}"></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box__footer">
+                                            <div class="e-voucher-notice">
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="42.998px" height="78px" viewBox="0 0 42.998 78" enable-background="new 0 0 42.998 78" xml:space="preserve" class="svg image  replaced-svg">
+                                                    <g>
+                                                        <g>
+                                                            <path d="M24.997,6.538h-6.995c-1.241,0-2.25,1.006-2.25,2.247c0,1.239,1.009,2.247,2.25,2.247h6.995    c1.242,0,2.25-1.007,2.25-2.247C27.247,7.544,26.239,6.538,24.997,6.538z M21.494,69.02c1.065,0,2.069-0.407,2.845-1.166    c1.558-1.559,1.568-4.098,0.022-5.662c-1.518-1.527-4.164-1.557-5.719-0.018c-1.53,1.554-1.536,4.084-0.008,5.651    C19.392,68.597,20.41,69.02,21.494,69.02z M21.172,64.66c0.084-0.081,0.201-0.132,0.322-0.132c0.129,0,0.26,0.057,0.357,0.155    c0.177,0.182,0.176,0.465-0.018,0.66c-0.188,0.188-0.496,0.183-0.678,0.007C20.969,65.158,20.969,64.861,21.172,64.66z M35.322,0    H7.679C3.444,0,0,3.441,0,7.667v62.665C0,74.56,3.445,78,7.679,78H35.32c4.232,0,7.676-3.44,7.678-7.667V7.667    C42.998,3.44,39.553,0,35.322,0z M38.498,70.333c0,1.75-1.424,3.174-3.176,3.174H7.679c-1.752,0-3.18-1.424-3.18-3.174V58.669    h33.999V70.333z M38.498,54.176H4.499V18.016h33.999V54.176z M38.498,13.522H4.499V7.667c0-1.75,1.428-3.174,3.18-3.174h27.644    c1.752,0,3.176,1.425,3.176,3.174V13.522z"></path>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                Bạn sẽ nhận Email hoặc điện thoại từ nhân viên để xác nhận đơn hàng.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </main>
+
+                    <div th:replace="fragments/frontend/footer :: footer" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#top" data-offset="300" class="btn btn-default btn--to-top to-top"><i class="fa fa-arrow-up"></i></a>
+
+<script th:src="@{/resources/frontend/js/base-3.7.8.min.js}"></script>
+<script th:src="@{/resources/frontend/js/app-9.10.77.min.js}"></script>
+<script th:src="@{/resources/frontend/js/ld.js}"></script>
+
+</body>
+
+</html>

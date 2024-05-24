@@ -1,3 +1,3 @@
-# Bill Booking
+# Shoes Ecommerce
 
 Project private
